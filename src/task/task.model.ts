@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Document, now } from "mongoose";
+import { mongoosePagination } from "mongoose-paginate-ts";
 
 export type TaskDocument = TaskModel & Document;
 
@@ -19,3 +20,5 @@ export class TaskModel extends Document {
 }
 
 export const taskModelSchema = SchemaFactory.createForClass(TaskModel);
+
+taskModelSchema.plugin(mongoosePagination);

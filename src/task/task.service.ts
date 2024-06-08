@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import Task from "../../types/Task";
-import { Model } from "mongoose";
 import { TaskDocument, TaskModel } from "./task.model";
 import { InjectModel } from "@nestjs/mongoose";
+import { Pagination, PaginationModel } from "mongoose-paginate-ts";
 
 @Injectable()
 export class TasksService {
-    @InjectModel(TaskModel.name) private readonly taskModel: Model<TaskDocument>;
+    @InjectModel(TaskModel.name) private readonly taskModel: Pagination<TaskDocument>;
     private readonly tasks: Task[];
 
     async create(task: Task) {
@@ -20,8 +20,14 @@ export class TasksService {
         };
     }
 
-    async findAll(): Promise<TaskDocument[]> {
-        return this.taskModel.find().exec();
+    async findAll(page: number): Promise<PaginationModel<TaskDocument>> {
+        return this.taskModel.paginate({
+            limit: 5,
+            page,
+            sort: {
+                createdAt: -1,
+            },
+        });
     }
 
     async update(id: string, body: any) {

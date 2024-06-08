@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { TasksService } from "./task.service";
 import { CreateTaskDTO } from "./dto/create-task.dto";
 
@@ -7,8 +7,8 @@ export class TasksController {
     constructor(private taskService: TasksService) {}
 
     @Get()
-    async findAll() {
-        return this.taskService.findAll();
+    async findAll(@Query("page") page: string) {
+        return this.taskService.findAll(parseInt(page));
     }
 
     @Post("create")

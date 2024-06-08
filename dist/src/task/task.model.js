@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.taskModelSchema = exports.TaskModel = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const mongoose_paginate_ts_1 = require("mongoose-paginate-ts");
 let TaskModel = class TaskModel extends mongoose_2.Document {
 };
 exports.TaskModel = TaskModel;
@@ -32,7 +33,8 @@ __decorate([
     __metadata("design:type", Date)
 ], TaskModel.prototype, "createdAt", void 0);
 exports.TaskModel = TaskModel = __decorate([
-    (0, mongoose_1.Schema)({ collection: 'tasks' })
+    (0, mongoose_1.Schema)({ collection: "tasks" })
 ], TaskModel);
 exports.taskModelSchema = mongoose_1.SchemaFactory.createForClass(TaskModel);
+exports.taskModelSchema.plugin(mongoose_paginate_ts_1.mongoosePagination);
 //# sourceMappingURL=task.model.js.map

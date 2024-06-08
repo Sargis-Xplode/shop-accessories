@@ -15,10 +15,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            mongoose_1.MongooseModule.forRoot('mongodb://localhost:27017/to-do'),
-            task_module_1.TasksModule,
-        ],
+        imports: [mongoose_1.MongooseModule.forRoot("mongodb://localhost:27017/to-do"), task_module_1.TasksModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

@@ -22,14 +22,39 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/aggregate" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/callback" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/collection" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/connection" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/cursor" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/document" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/error" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/expressions" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/helpers" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/middlewares" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/indexes" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/models" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/mongooseoptions" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/pipelinestage" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/populate" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/query" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/schemaoptions" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/schematypes" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/session" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/types" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/utility" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/validation" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/virtuals" />
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 /// <reference types="mongoose/types/inferrawdoctype" />
-import { TasksService } from './task.service';
-import { CreateTaskDTO } from './dto/create-task.dto';
+/// <reference types="mongoose-paginate-ts/node_modules/mongoose/types/inferschematype" />
+import { TasksService } from "./task.service";
+import { CreateTaskDTO } from "./dto/create-task.dto";
 export declare class TasksController {
     private taskService;
     constructor(taskService: TasksService);
-    findAll(): Promise<import("./task.model").TaskDocument[]>;
+    findAll(page: string): Promise<import("mongoose-paginate-ts").PaginationModel<import("./task.model").TaskDocument>>;
     creat(createTaskDto: CreateTaskDTO): Promise<{
         success: boolean;
         data: {

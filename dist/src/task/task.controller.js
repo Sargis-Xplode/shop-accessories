@@ -20,8 +20,8 @@ let TasksController = class TasksController {
     constructor(taskService) {
         this.taskService = taskService;
     }
-    async findAll() {
-        return this.taskService.findAll();
+    async findAll(page) {
+        return this.taskService.findAll(parseInt(page));
     }
     async creat(createTaskDto) {
         return this.taskService.create(createTaskDto);
@@ -36,34 +36,35 @@ let TasksController = class TasksController {
 exports.TasksController = TasksController;
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)("page")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Post)('create'),
+    (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_task_dto_1.CreateTaskDTO]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "creat", null);
 __decorate([
-    (0, common_1.Put)(':id/update'),
+    (0, common_1.Put)(":id/update"),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_task_dto_1.CreateTaskDTO, String]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id/delete'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(":id/delete"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "delete", null);
 exports.TasksController = TasksController = __decorate([
-    (0, common_1.Controller)('tasks'),
+    (0, common_1.Controller)("tasks"),
     __metadata("design:paramtypes", [task_service_1.TasksService])
 ], TasksController);
 //# sourceMappingURL=task.controller.js.map

@@ -11,9 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
-const mongoose_1 = require("mongoose");
 const task_model_1 = require("./task.model");
-const mongoose_2 = require("@nestjs/mongoose");
+const mongoose_1 = require("@nestjs/mongoose");
 let TasksService = class TasksService {
     async create(task) {
         this.taskModel.create(task);
@@ -24,8 +23,14 @@ let TasksService = class TasksService {
             },
         };
     }
-    async findAll() {
-        return this.taskModel.find().exec();
+    async findAll(page) {
+        return this.taskModel.paginate({
+            limit: 5,
+            page,
+            sort: {
+                createdAt: -1,
+            },
+        });
     }
     async update(id, body) {
         const data = await this.taskModel.findById(id).exec();
@@ -45,8 +50,8 @@ let TasksService = class TasksService {
 };
 exports.TasksService = TasksService;
 __decorate([
-    (0, mongoose_2.InjectModel)(task_model_1.TaskModel.name),
-    __metadata("design:type", mongoose_1.Model)
+    (0, mongoose_1.InjectModel)(task_model_1.TaskModel.name),
+    __metadata("design:type", Object)
 ], TasksService.prototype, "taskModel", void 0);
 exports.TasksService = TasksService = __decorate([
     (0, common_1.Injectable)()
