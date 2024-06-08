@@ -10,12 +10,13 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const task_module_1 = require("./task/task.module");
+require("dotenv").config();
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forRoot("mongodb://localhost:27017/to-do"), task_module_1.TasksModule],
+        imports: [mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URI), task_module_1.TasksModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
