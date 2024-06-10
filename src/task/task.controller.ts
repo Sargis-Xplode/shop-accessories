@@ -11,17 +11,17 @@ export class TasksController {
         return this.taskService.findAll(parseInt(page));
     }
 
-    @Post("create")
+    @Post("")
     async creat(@Body() createTaskDto: CreateTaskDTO) {
         return this.taskService.create(createTaskDto);
     }
 
-    @Put(":id/update")
+    @Put(":id")
     async update(@Body() updatedTask: CreateTaskDTO, @Param("id") id: string) {
         return this.taskService.update(id, updatedTask);
     }
 
-    @Delete(":id/delete")
+    @Delete(":id")
     async delete(@Param("id") id: string) {
         return this.taskService.delete(id);
     }
