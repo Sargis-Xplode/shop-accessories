@@ -8,7 +8,7 @@ export class TasksController {
 
     @Get()
     async findAll(@Query("page") page: string) {
-        return this.taskService.findAll(parseInt(page));
+        return this.taskService.findAll(parseInt(page) || 1);
     }
 
     @Post("")

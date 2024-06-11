@@ -10,12 +10,12 @@ export class TasksService {
     private readonly tasks: Task[];
 
     async create(task: Task) {
-        this.taskModel.create(task);
+        let x = await this.taskModel.create<Task>(task);
 
         return {
             success: true,
             data: {
-                task,
+                task: x,
             },
         };
     }
