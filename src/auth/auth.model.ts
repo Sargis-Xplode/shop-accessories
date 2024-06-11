@@ -5,7 +5,7 @@ import { Document } from "mongoose";
 @Schema({ collection: "admins" })
 export class AdminsModel extends Document {
     @Prop({ unique: true })
-    username: string;
+    email: string;
 
     @Prop()
     password: string;

@@ -5,7 +5,6 @@ import { Model } from "mongoose";
 import * as bcrypt from "bcryptjs";
 import { AdminsModel } from "./auth.model";
 import { AuthUpdatePasswordDTO } from "./dto/auth.dto";
-import { AuthPayloadInterface } from "utils/jwt/jwt-payload.interface";
 
 @Injectable()
 export class AuthService {
@@ -14,12 +13,26 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) {}
 
-    generateAccessToken(id: string): string {
-        return this.jwtService.sign({ sub: id });
+    generateAccessToken(email: string): string {
+        return this.jwtService.sign({ email });
     }
 
-    login(admin: AuthPayloadInterface) {
-        return this.generateAccessToken(admin.sub);
+    async login(body: any) {
+        const { email } = body;
+        const admin = await this.adminsModel.findOne({ email });
+        if (admin) {
+            return {
+                success: false,
+                message: "Invalid credentials",
+                access_token: this.generateAccessToken(email),
+            };
+        } else {
+            return {
+                success: false,
+                message: "Invalid credentials",
+                access_token: null,
+            };
+        }
     }
 
     async validateAdmin(username: string, password: string): Promise<any> {
