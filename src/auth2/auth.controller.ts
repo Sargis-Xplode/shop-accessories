@@ -1,6 +1,7 @@
 // auth.controller.ts
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Put, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
+import { AuthUpdatePasswordDTO } from "./dto/auth.dto";
 
 interface AdminLoginDTO {
     success: boolean;
@@ -15,5 +16,10 @@ export class AuthController {
     @Post("login")
     async login(@Body() body: any): Promise<AdminLoginDTO> {
         return this.authService.login(body);
+    }
+
+    @Put("password")
+    async changePassword(@Req() req: any, @Body() data: AuthUpdatePasswordDTO): Promise<any> {
+        return this.authService.changePassword(req.user.sub, data);
     }
 }
