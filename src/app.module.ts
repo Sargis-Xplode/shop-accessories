@@ -6,6 +6,7 @@ import { TermsModule } from "./terms/terms.module";
 import { PrivacyModule } from "./privacy/privacy.module";
 import { ContactUsInfoModule } from "./contact-us-info/contact-us-info.module";
 import { FAQModule } from "./faq/faq.module";
+import { CollectionsModule } from "./collections/collections.module";
 
 require("dotenv").config();
 
@@ -18,6 +19,7 @@ require("dotenv").config();
         PrivacyModule,
         ContactUsInfoModule,
         FAQModule,
+        CollectionsModule,
     ],
 })
 export class AppModule {}

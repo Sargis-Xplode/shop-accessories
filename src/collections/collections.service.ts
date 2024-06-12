@@ -1,0 +1,57 @@
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { Collections } from "./collections.model";
+import { CollectionsDTO } from "./dto/collections.dto";
+import SuccessResponse from "types/success";
+import { Success } from "utils/success";
+import { Pagination } from "mongoose-paginate-ts";
+
+@Injectable()
+export class CollectionsService {
+    constructor(
+        @InjectModel(Collections.name)
+        private readonly collectionsModel: Pagination<Collections>
+    ) {}
+
+    async getCollections(page: number, limit: number): Promise<SuccessResponse> {
+        try {
+            const data = await this.collectionsModel.paginate({
+                limit,
+                page,
+                sort: {
+                    createdAt: -1,
+                },
+            });
+
+            return Success(true, "Successful", data);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async updateCollections(body: CollectionsDTO) {
+        const { name_arm, name_eng, image } = body;
+        const collections = await this.collectionsModel.findOne();
+        if (collections) {
+            collections.name_arm = name_arm;
+            collections.name_eng = name_eng;
+            collections.image = image;
+
+            await collections.save();
+
+            return Success(true, "Collection was updated successfully", collections);
+        } else {
+            return Success(false, "Collection wasn't updated", null);
+        }
+    }
+
+    async deleteCollection(id: string, body: CollectionsDTO) {
+        try {
+            await this.collectionsModel.findByIdAndDelete(id);
+            return Success(true, "Collection was deleted successfully", null);
+        } catch (err) {
+            return Success(false, "There was an error", null);
+        }
+    }
+}
