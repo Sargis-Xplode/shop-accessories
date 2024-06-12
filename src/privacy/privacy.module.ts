@@ -10,4 +10,4 @@ import { PrivacyService } from "./privacy.service";
     controllers: [PrivacyController],
     providers: [PrivacyService],
 })
-export class AboutModule {}
+export class PrivacyModule {}
