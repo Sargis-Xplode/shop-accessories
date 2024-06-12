@@ -14,6 +14,11 @@ export class AuthController {
         return this.authService.login(body);
     }
 
+    // @Post("register")
+    // async register(@Body() body: AuthUpdatePasswordDTO): Promise<Success> {
+    //     return this.authService.register(body);
+    // }
+
     @Post("password")
     // @UseGuards(AuthGuard("jwt"))
     async changePassword(@Body() body: AuthUpdatePasswordDTO, @Req() request: Request): Promise<Success> {

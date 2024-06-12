@@ -33,6 +33,13 @@ export class AuthService {
         }
     }
 
+    async register(body: any) {
+        const { email, password } = body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await this.adminsModel.create({ email, password: hashedPassword });
+        return Success(true, "Successfully registered", null);
+    }
+
     async changePassword(body: AuthUpdatePasswordDTO, token: string) {
         const { password, new_password } = body;
 
