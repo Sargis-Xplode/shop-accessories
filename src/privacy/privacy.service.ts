@@ -38,9 +38,14 @@ export class PrivacyService {
 
             await privacy.save();
 
-            return Success(true, "Privacy us updated successfully", privacy);
+            return Success(true, "Privacy updated successfully", privacy);
         } else {
-            return Success(false, "Privacy us is empty", privacy);
+            const privacy = await this.privacyModel.create({
+                description_arm,
+                description_eng,
+            });
+
+            return Success(true, "Privacy updated successfully", privacy);
         }
     }
 }
