@@ -42,7 +42,12 @@ export class AboutService {
 
             return Success(true, "About us updated successfully", about);
         } else {
-            return Success(false, "About us is empty", about);
+            const about = await this.aboutModel.create({
+                description_arm,
+                description_eng,
+            });
+
+            return Success(true, "About us updated successfully", about);
         }
     }
 }

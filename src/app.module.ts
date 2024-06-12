@@ -4,10 +4,18 @@ import { AuthModule } from "./auth/auth.module";
 import { AboutModule } from "./about/about.module";
 import { TermsModule } from "./terms/terms.module";
 import { PrivacyModule } from "./privacy/privacy.module";
+import { ContactUsInfoModule } from "./contact-us-info/contact-us-info.module";
 
 require("dotenv").config();
 
 @Module({
-    imports: [MongooseModule.forRoot(process.env.MONGODB_URI), AuthModule, AboutModule, TermsModule, PrivacyModule],
+    imports: [
+        MongooseModule.forRoot(process.env.MONGODB_URI),
+        AuthModule,
+        AboutModule,
+        TermsModule,
+        PrivacyModule,
+        ContactUsInfoModule,
+    ],
 })
 export class AppModule {}

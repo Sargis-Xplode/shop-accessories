@@ -41,7 +41,12 @@ export class TermsService {
 
             return Success(true, "Terms updated successfully", terms);
         } else {
-            return Success(false, "Terms is empty", terms);
+            const terms = await this.termsModel.create({
+                description_arm,
+                description_eng,
+            });
+
+            return Success(true, "Terms updated successfully", terms);
         }
     }
 }
