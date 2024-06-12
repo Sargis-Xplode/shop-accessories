@@ -8,8 +8,8 @@ export class FAQController {
     constructor(private readonly faqService: FAQService) {}
 
     @Get()
-    async getFAQ(): Promise<SuccessResponse> {
-        return await this.faqService.getFAQ();
+    async getFAQ(@Query("page") page: string, @Query("limit") limit: string): Promise<SuccessResponse> {
+        return await this.faqService.getFAQ(parseInt(page) || 1, parseInt(limit) || 10);
     }
 
     @Post("")

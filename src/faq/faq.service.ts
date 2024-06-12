@@ -5,25 +5,27 @@ import SuccessResponse from "types/success";
 import { Success } from "utils/success";
 import { FAQModel } from "./faq.model";
 import { FAQDTO } from "./dto/faq.dto";
+import { Pagination, PaginationModel } from "mongoose-paginate-ts";
 
 @Injectable()
 export class FAQService {
     constructor(
         @InjectModel(FAQModel.name)
-        private readonly faqModel: Model<FAQModel>
+        private readonly faqModel: Pagination<FAQModel>
     ) {}
 
-    async getFAQ() {
+    async getFAQ(page: number, limit: number): Promise<SuccessResponse> {
         try {
-            const faqs = await this.faqModel.find();
-            console.log(faqs);
-            if (faqs.length) {
-                return Success(true, "Successful", faqs);
-            } else {
-                return Success(true, "FAQ is empty", null);
-            }
+            const data = await this.faqModel.paginate({
+                limit,
+                page,
+                sort: {
+                    createdAt: -1,
+                },
+            });
+            return Success(true, "Successful", data);
         } catch (err) {
-            return Success(false, "Couldn't find FAQs", null);
+            return Success(false, "Unsuccessful", null);
         }
     }
 
