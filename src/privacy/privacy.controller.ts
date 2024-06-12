@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import SuccessResponse from "types/success";
 import { PrivacyDTO } from "./dto/privacy.dto";
+import { PrivacyService } from "./privacy.service";
 
 @Controller("privacy")
 export class PrivacyController {
