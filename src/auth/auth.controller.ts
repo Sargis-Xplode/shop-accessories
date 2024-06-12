@@ -1,19 +1,23 @@
-// auth.controller.ts
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-
-interface AdminLoginDTO {
-    success: boolean;
-    message: string;
-    access_token: string;
-}
+import { AuthUpdatePasswordDTO } from "./dto/auth.dto";
+import { AuthGuard } from "@nestjs/passport";
+import { Request } from "express";
+import Success from "types/success";
 
 @Controller("auth")
 export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post("login")
-    async login(@Body() body: any): Promise<AdminLoginDTO> {
+    async login(@Body() body: any): Promise<Success> {
         return this.authService.login(body);
+    }
+
+    @Post("password")
+    // @UseGuards(AuthGuard("jwt"))
+    async changePassword(@Body() body: AuthUpdatePasswordDTO, @Req() request: Request): Promise<Success> {
+        const jwt = request.headers.authorization.replace("Bearer ", "");
+        return this.authService.changePassword(body, jwt);
     }
 }
