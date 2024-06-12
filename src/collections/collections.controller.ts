@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Query, Delete, Put } from "@nestjs/common";
 import { CollectionsService } from "./collections.service";
 import SuccessResponse from "types/success";
 import { CollectionsDTO } from "./dto/collections.dto";
@@ -13,12 +13,17 @@ export class CollectionsController {
     }
 
     @Post("")
-    async updateCollections(@Body() body: CollectionsDTO): Promise<SuccessResponse> {
-        return await this.collectionsService.updateCollections(body);
+    async createCollections(@Body() body: CollectionsDTO): Promise<SuccessResponse> {
+        return await this.collectionsService.createCollection(body);
     }
 
-    @Post(":id")
-    async deleteCollection(@Param("id") id: string, @Body() body: CollectionsDTO): Promise<SuccessResponse> {
-        return await this.collectionsService.deleteCollection(id, body);
+    @Put(":id")
+    async updateCollections(@Param("id") id: string, @Body() body: CollectionsDTO): Promise<SuccessResponse> {
+        return await this.collectionsService.updateCollection(id, body);
+    }
+
+    @Delete(":id")
+    async deleteCollection(@Param("id") id: string): Promise<SuccessResponse> {
+        return await this.collectionsService.deleteCollection(id);
     }
 }

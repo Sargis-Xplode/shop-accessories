@@ -30,9 +30,24 @@ export class CollectionsService {
         }
     }
 
-    async updateCollections(body: CollectionsDTO) {
+    async createCollection(body: CollectionsDTO) {
         const { name_arm, name_eng, image } = body;
-        const collections = await this.collectionsModel.findOne();
+        try {
+            const collections = await this.collectionsModel.create({
+                name_arm,
+                name_eng,
+                image,
+            });
+
+            return Success(true, "Collection was created successfully", collections);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async updateCollection(id: string, body: CollectionsDTO) {
+        const { name_arm, name_eng, image } = body;
+        const collections = await this.collectionsModel.findById(id);
         if (collections) {
             collections.name_arm = name_arm;
             collections.name_eng = name_eng;
@@ -46,7 +61,7 @@ export class CollectionsService {
         }
     }
 
-    async deleteCollection(id: string, body: CollectionsDTO) {
+    async deleteCollection(id: string) {
         try {
             await this.collectionsModel.findByIdAndDelete(id);
             return Success(true, "Collection was deleted successfully", null);
