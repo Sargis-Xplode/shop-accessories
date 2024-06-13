@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import SuccessResponse from "types/success.interface";
 import { Privacy } from "./privacy.model";
 import { PrivacyDTO } from "./dto/privacy.dto";
-import { Success } from "utils/success-response";
+import Success from "utils/success-response";
 
 @Injectable()
 export class PrivacyService {
