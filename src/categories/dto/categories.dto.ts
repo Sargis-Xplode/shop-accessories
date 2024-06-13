@@ -1,5 +1,5 @@
 import { ArrayMinSize, IsArray, IsNotEmpty } from "class-validator";
-import SubCategories from "types/subcategories";
+import SubCategories from "subcategories";
 
 export class CategoriesDTO {
     @IsNotEmpty()
