@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import SuccessResponse from "types/success.interface";
 import { CategoriesDTO } from "./dto/categories.dto";
 import { CategoriesModel } from "./categories.model";
-import { Success } from "src/lib/success";
+import { Success } from "utils/success-response";
 
 @Injectable()
 export class CategoriesService {
