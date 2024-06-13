@@ -1,7 +1,7 @@
 import { IsArray, IsNotEmpty } from "class-validator";
 import ColorsAndImages from "types/colorsAndImages.interface";
 import ExtraInfo from "../../../types/extraInfo.interface";
-import { FilterCategory } from "../Product.model";
+import { FilterCategory } from "../product.model";
 
 export class ProductDTO {
     @IsNotEmpty()
