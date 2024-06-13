@@ -5,6 +5,7 @@ import { Pagination } from "mongoose-paginate-ts";
 import Success from "../../utils/success-response";
 import { ProductModel } from "./product.model";
 import { ProductDTO } from "./dto/product.dto";
+import { ObjectId } from "mongoose";
 
 @Injectable()
 export class ProductService {
@@ -20,6 +21,30 @@ export class ProductService {
                 page,
                 sort: {
                     createdAt: -1,
+                },
+            });
+            return Success(true, "Successful", data);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async searchProducts(
+        page: number,
+        limit: number,
+        category_id: ObjectId,
+        subcategories: string[],
+        materials: string[],
+        styles: string[],
+        occasions: string[],
+        sort: string = "asc"
+    ): Promise<SuccessResponse> {
+        try {
+            const data = await this.productModel.paginate({
+                limit,
+                page,
+                sort: {
+                    createdAt: sort === "asc" ? -1 : 1,
                 },
             });
             return Success(true, "Successful", data);
