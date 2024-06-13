@@ -5,7 +5,7 @@ import { Pagination } from "mongoose-paginate-ts";
 import Success from "../../utils/success-response";
 import { ProductModel } from "./product.model";
 import { ProductDTO } from "./dto/product.dto";
-import { ObjectId } from "mongoose";
+import { Types } from "mongoose";
 
 @Injectable()
 export class ProductService {
@@ -32,19 +32,43 @@ export class ProductService {
     async searchProducts(
         page: number,
         limit: number,
-        category_id: ObjectId,
+        category_id: string,
         subcategories: string[],
         materials: string[],
         styles: string[],
         occasions: string[],
-        sort: string = "asc"
+        sort: string,
+        sale: boolean
     ): Promise<SuccessResponse> {
+        const query: any = {};
+
+        if (category_id) {
+            query["filter_categories.category_id"] = category_id;
+        }
+        if (subcategories.length > 0) {
+            query["filter_categories.subcategories"] = { $in: subcategories };
+        }
+        if (materials.length > 0) {
+            query.filter_materials = { $in: materials };
+        }
+        if (styles.length > 0) {
+            query.filter_styles = { $in: styles };
+        }
+        if (occasions.length > 0) {
+            query.filter_occasions = { $in: occasions };
+        }
+
+        if (sale) {
+            query.sale = { $gt: 0 };
+        }
+
         try {
             const data = await this.productModel.paginate({
+                query,
                 limit,
                 page,
                 sort: {
-                    createdAt: sort === "asc" ? -1 : 1,
+                    createdAt: sort === "asc" ? 1 : -1,
                 },
             });
             return Success(true, "Successful", data);

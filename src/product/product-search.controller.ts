@@ -11,22 +11,24 @@ export class ProductSearchontroller {
     async getProducts(
         @Query("page") page: string,
         @Query("limit") limit: string,
-        @Query("category_id") category_id: ObjectId,
+        @Query("category_id") category_id: string,
         @Query("subcategories") subcategories: string[],
         @Query("materials") materials: string[],
         @Query("styles") styles: string[],
         @Query("occasions") occasions: string[],
-        @Query("sort") sort: string
+        @Query("sort") sort: string,
+        @Query("sale") sale: boolean
     ): Promise<SuccessResponse> {
         return await this.productService.searchProducts(
             parseInt(page) || 1,
             parseInt(limit) || 10,
             category_id,
-            subcategories,
-            materials,
-            styles,
-            occasions,
-            sort
+            subcategories || [],
+            materials || [],
+            styles || [],
+            occasions || [],
+            sort || "asc",
+            sale || false
         );
     }
 }
