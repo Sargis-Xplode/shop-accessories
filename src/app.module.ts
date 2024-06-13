@@ -11,6 +11,7 @@ import { CategoriesModule } from "./categories/categories.module";
 import { FilterMaterialModule } from "./filter-material/filter-material.module";
 import { FilterOccasionModule } from "./filter-occasion/filter-occasion.module";
 import { FilterStyleModule } from "./filter-style/filter-style.module";
+import { ProductModule } from "./product/product.module";
 
 require("dotenv").config();
 
@@ -28,6 +29,7 @@ require("dotenv").config();
         FilterMaterialModule,
         FilterOccasionModule,
         FilterStyleModule,
+        ProductModule,
     ],
 })
 export class AppModule {}
