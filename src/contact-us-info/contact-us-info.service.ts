@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import SuccessResponse from "types/success.interface";
 import { ContactUsInfoDTO } from "./dto/contact-us-info.dto";
 import { ContactUsInfo } from "./contact-us-info.model";
-import Success from "utils/success-response";
+import Success from "../../utils/success-response";
 
 @Injectable()
 export class ContactUsInfoService {
