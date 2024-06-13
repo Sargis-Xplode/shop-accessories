@@ -1,15 +1,20 @@
-import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Post, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthUpdatePasswordDTO } from "./dto/auth.dto";
 import { Request } from "express";
 import SuccessResponse from "types/success";
+
+export interface LoginDTO {
+    email: string;
+    password: string;
+}
 
 @Controller("auth")
 export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post("login")
-    async login(@Body() body: any): Promise<SuccessResponse> {
+    async login(@Body() body: LoginDTO): Promise<SuccessResponse> {
         return this.authService.login(body);
     }
 

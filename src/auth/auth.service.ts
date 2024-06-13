@@ -6,6 +6,7 @@ import { Model } from "mongoose";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcryptjs";
 import { Success } from "utils/success";
+import { LoginDTO } from "./auth.controller";
 
 require("dotenv").config();
 
@@ -16,7 +17,7 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) {}
 
-    async login(body: any) {
+    async login(body: LoginDTO) {
         const { email, password } = body;
         const admin = await this.adminsModel.findOne({ email });
         const token = this.jwtService.sign({ email });
@@ -33,7 +34,7 @@ export class AuthService {
         }
     }
 
-    async register(body: any) {
+    async register(body: LoginDTO) {
         const { email, password } = body;
         const hashedPassword = await bcrypt.hash(password, 10);
         await this.adminsModel.create({ email, password: hashedPassword });
