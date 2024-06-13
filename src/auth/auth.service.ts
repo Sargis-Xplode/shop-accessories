@@ -6,7 +6,7 @@ import { Model } from "mongoose";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcryptjs";
 import { LoginDTO } from "./auth.controller";
-import Success from "utils/success-response";
+import Success from "../../utils/success-response";
 
 require("dotenv").config();
 
