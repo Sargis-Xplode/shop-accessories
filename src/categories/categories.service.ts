@@ -5,10 +5,22 @@ import SuccessResponse from "types/success.interface";
 import { CategoriesDTO } from "./dto/categories.dto";
 import { CategoriesModel } from "./categories.model";
 import Success from "../../utils/success-response";
+import { FilterMaterialModel } from "src/filter-material/filter-material.model";
+import { FilterStyleModel } from "src/filter-style/filter-style.model";
+import { FilterOccasionModel } from "src/filter-occasion/filter-occasion.model";
 
 @Injectable()
 export class CategoriesService {
     constructor(
+        @InjectModel(FilterMaterialModel.name)
+        private readonly filterMaterialModel: Model<FilterMaterialModel>,
+
+        @InjectModel(FilterStyleModel.name)
+        private readonly filterStyleModel: Model<FilterStyleModel>,
+
+        @InjectModel(FilterOccasionModel.name)
+        private readonly filterOccasionModel: Model<FilterOccasionModel>,
+
         @InjectModel(CategoriesModel.name)
         private readonly categoriesModel: Model<CategoriesModel>
     ) {}
@@ -19,6 +31,24 @@ export class CategoriesService {
             return Success(true, "Success", categories);
         } catch (err) {
             return Success(false, err, null);
+        }
+    }
+
+    async getFilters(): Promise<SuccessResponse> {
+        const filterMaterials = await this.filterMaterialModel.find();
+        const filterStyles = await this.filterStyleModel.find();
+        const filterOccasions = await this.filterOccasionModel.find();
+        const filterCategories = await this.categoriesModel.find();
+
+        if (filterMaterials || filterStyles || filterOccasions) {
+            return Success(true, "Successful", {
+                categories: filterCategories,
+                materials: filterMaterials,
+                styles: filterStyles,
+                occasions: filterOccasions,
+            });
+        } else {
+            return Success(false, "Unsuccessful", null);
         }
     }
 
