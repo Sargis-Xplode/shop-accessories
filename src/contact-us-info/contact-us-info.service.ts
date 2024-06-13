@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import SuccessResponse from "types/success.interface";
-import { Success } from "utils/success";
 import { ContactUsInfoDTO } from "./dto/contact-us-info.dto";
 import { ContactUsInfo } from "./contact-us-info.model";
+import { Success } from "lib/success";
 
 @Injectable()
 export class ContactUsInfoService {

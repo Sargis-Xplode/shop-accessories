@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import SuccessResponse from "types/success.interface";
-import { Success } from "utils/success";
 import { Privacy } from "./privacy.model";
 import { PrivacyDTO } from "./dto/privacy.dto";
+import { Success } from "lib/success";
 
 @Injectable()
 export class PrivacyService {
