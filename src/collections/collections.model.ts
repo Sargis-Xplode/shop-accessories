@@ -1,4 +1,3 @@
-// about.model.ts
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Document, now } from "mongoose";
 import { mongoosePagination } from "mongoose-paginate-ts";
