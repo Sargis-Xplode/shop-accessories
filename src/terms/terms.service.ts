@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import SuccessResponse from "types/success.interface";
 import { Terms } from "./terms.model";
 import { TermsDTO } from "./dto/terms.dto";
-import { Success } from "lib/success";
+import { Success } from "src/lib/success";
 
 @Injectable()
 export class TermsService {

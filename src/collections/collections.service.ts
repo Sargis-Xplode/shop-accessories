@@ -4,7 +4,7 @@ import { Collections } from "./collections.model";
 import { CollectionsDTO } from "./dto/collections.dto";
 import SuccessResponse from "types/success.interface";
 import { Pagination } from "mongoose-paginate-ts";
-import { Success } from "lib/success";
+import { Success } from "src/lib/success";
 
 @Injectable()
 export class CollectionsService {

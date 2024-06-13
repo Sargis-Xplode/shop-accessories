@@ -4,7 +4,7 @@ import SuccessResponse from "types/success.interface";
 import { FAQModel } from "./faq.model";
 import { FAQDTO } from "./dto/faq.dto";
 import { Pagination } from "mongoose-paginate-ts";
-import { Success } from "lib/success";
+import { Success } from "src/lib/success";
 
 @Injectable()
 export class FAQService {
