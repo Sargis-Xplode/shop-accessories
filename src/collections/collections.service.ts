@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Collections } from "./collections.model";
 import { CollectionsDTO } from "./dto/collections.dto";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { Success } from "utils/success";
 import { Pagination } from "mongoose-paginate-ts";
 

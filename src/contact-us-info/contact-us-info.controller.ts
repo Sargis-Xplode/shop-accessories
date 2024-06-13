@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { ContactUsInfoService } from "./contact-us-info.service";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { ContactUsInfoDTO } from "./dto/contact-us-info.dto";
 
 @Controller("contact-us-info")

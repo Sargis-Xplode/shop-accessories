@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Query, Delete, Put } from "@nestjs/common";
 import { CollectionsService } from "./collections.service";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { CollectionsDTO } from "./dto/collections.dto";
 
 @Controller("collections")

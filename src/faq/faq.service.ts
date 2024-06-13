@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { Success } from "utils/success";
 import { FAQModel } from "./faq.model";
 import { FAQDTO } from "./dto/faq.dto";

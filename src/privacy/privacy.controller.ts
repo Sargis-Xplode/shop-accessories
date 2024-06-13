@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { PrivacyDTO } from "./dto/privacy.dto";
 import { PrivacyService } from "./privacy.service";
 

@@ -2,7 +2,7 @@ import { Body, Controller, Post, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthUpdatePasswordDTO } from "./dto/auth.dto";
 import { Request } from "express";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 
 export interface LoginDTO {
     email: string;

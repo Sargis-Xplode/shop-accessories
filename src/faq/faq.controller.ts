@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Delete, Query, Put, Param } from "@nestjs/common";
 import { FAQService } from "./faq.service";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { FAQDTO } from "./dto/faq.dto";
 
 @Controller("faq")

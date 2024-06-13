@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, Query, Delete, Put } from "@nestjs/common";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { CategoriesDTO } from "./dto/categories.dto";
 import { CategoriesService } from "./categories.service";
 

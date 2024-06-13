@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { About } from "./about.model";
 import { AboutDTO } from "./dto/about.dto";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { Success } from "utils/success";
 
 @Injectable()

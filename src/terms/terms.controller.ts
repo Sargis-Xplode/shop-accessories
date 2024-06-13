@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { TermsService } from "./terms.service";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 import { TermsDTO } from "./dto/terms.dto";
 
 @Controller("terms")

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { AboutService } from "./about.service";
 import { AboutDTO } from "./dto/about.dto";
-import SuccessResponse from "types/success";
+import SuccessResponse from "types/success.interface";
 
 @Controller("about")
 export class AboutController {
