@@ -8,6 +8,9 @@ import { ContactUsInfoModule } from "./contact-us-info/contact-us-info.module";
 import { FAQModule } from "./faq/faq.module";
 import { CollectionsModule } from "./collections/collections.module";
 import { CategoriesModule } from "./categories/categories.module";
+import { FilterMaterialModule } from "./filter-material/filter-material.module";
+import { FilterOccasionModule } from "./filter-occasion/filter-occasion.module";
+import { FilterStyleModule } from "./filter-style/filter-style.module";
 
 require("dotenv").config();
 
@@ -22,6 +25,9 @@ require("dotenv").config();
         FAQModule,
         CollectionsModule,
         CategoriesModule,
+        FilterMaterialModule,
+        FilterOccasionModule,
+        FilterStyleModule,
     ],
 })
 export class AppModule {}
