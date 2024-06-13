@@ -5,22 +5,18 @@ import { ValidationPipe } from "@nestjs/common";
 require("dotenv").config();
 
 async function bootstrap() {
-    try {
-        const app = await NestFactory.create(AppModule);
-        app.useGlobalPipes(new ValidationPipe());
+    const app = await NestFactory.create(AppModule);
+    app.useGlobalPipes(new ValidationPipe());
 
-        app.enableCors({
-            origin: "*",
-            methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-            credentials: true,
-        });
+    app.enableCors({
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+        credentials: true,
+    });
 
-        const port = process.env.PORT || 8800;
+    const port = process.env.PORT || 8800;
 
-        await app.listen(port);
-        console.log(`Listening to port ${port}`);
-    } catch (err) {
-        console.log(err);
-    }
+    await app.listen(port);
+    console.log(`Listening to port ${port}`);
 }
 bootstrap();
