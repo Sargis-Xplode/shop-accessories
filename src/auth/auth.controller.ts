@@ -1,7 +1,5 @@
 import { Body, Controller, Post, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { AuthUpdatePasswordDTO } from "./dto/auth.dto";
-import { Request } from "express";
 import SuccessResponse from "types/success.interface";
 
 export interface LoginDTO {
@@ -23,10 +21,10 @@ export class AuthController {
     //     return this.authService.register(body);
     // }
 
-    @Post("password")
+    // @Post("password")
     // @UseGuards(AuthGuard("jwt"))
-    async changePassword(@Body() body: AuthUpdatePasswordDTO, @Req() request: Request): Promise<SuccessResponse> {
-        const jwt = request.headers.authorization.replace("Bearer ", "");
-        return this.authService.changePassword(body, jwt);
-    }
+    // async changePassword(@Body() body: AuthUpdatePasswordDTO, @Req() request: Request): Promise<SuccessResponse> {
+    //     const jwt = request.headers.authorization.replace("Bearer ", "");
+    //     return this.authService.changePassword(body, jwt);
+    // }
 }

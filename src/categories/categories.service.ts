@@ -41,23 +41,30 @@ export class CategoriesService {
             return Success(false, err, null);
         }
     }
-    c;
 
     async getFilters(): Promise<SuccessResponse> {
-        const filterMaterials = await this.filterMaterialModel.find();
-        const filterStyles = await this.filterStyleModel.find();
-        const filterOccasions = await this.filterOccasionModel.find();
-        const filterCategories = await this.categoriesModel.find();
-
-        if (filterMaterials || filterStyles || filterOccasions) {
-            return Success(true, "Successful", {
-                categories: filterCategories,
-                materials: filterMaterials,
-                styles: filterStyles,
-                occasions: filterOccasions,
+        try {
+            const data = await Promise.all([
+                this.filterMaterialModel.find(), // TO DO lang query
+                this.filterStyleModel.find(),
+                this.filterOccasionModel.find(),
+                this.categoriesModel.find(),
+            ]).then((values) => {
+                console.log(values);
+                return values;
             });
-        } else {
-            return Success(false, "Unsuccessful", null);
+
+            const [materials, styles, occasions, categories] = data;
+            if (data.length) {
+                return Success(true, "Successful", {
+                    categories,
+                    materials,
+                    styles,
+                    occasions,
+                });
+            }
+        } catch (err) {
+            return Success(false, err.message, null);
         }
     }
 
@@ -73,7 +80,7 @@ export class CategoriesService {
                 subCategories: subcategory_ids,
                 active: true,
             });
-            return Success(true, "Success", categories);
+            return Success(true, "Success", null);
         } catch (err) {
             return Success(false, err, null);
         }
@@ -100,15 +107,9 @@ export class CategoriesService {
     }
 
     async mapSubcategories(subCategories: SubCategoriesDTO[]) {
-        const subcategory_ids = await Promise.all(
-            subCategories.map(async (subcateg: SubCategoriesDTO) => {
-                const subCategory = await this.subCategoryModel.create({
-                    subcategory_arm: subcateg.subcategory_arm,
-                    subcategory_eng: subcateg.subcategory_eng,
-                });
-                return subCategory._id;
-            })
-        );
+        const subcategory_ids = (await this.subCategoryModel.insertMany(subCategories)).map((item) => {
+            return item._id;
+        });
         return subcategory_ids;
     }
 

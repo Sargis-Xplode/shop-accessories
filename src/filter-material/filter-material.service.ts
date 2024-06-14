@@ -60,14 +60,9 @@ export class FilterMaterialService {
                 filterMaterial.active = active === "true";
                 await filterMaterial.save();
 
-                if (active === "true") {
-                    console.log("here", active);
-                    return Success(true, "Activated successfully", filterMaterial);
-                } else {
-                    console.log("here 2", active);
+                let activeName = active === "true" ? "Activated" : "Deactivated"; // TO DO
 
-                    return Success(true, "Deactivated successfully", filterMaterial);
-                }
+                return Success(true, activeName + " successfully", filterMaterial);
             } else {
                 return Success(false, "There was an error", null);
             }

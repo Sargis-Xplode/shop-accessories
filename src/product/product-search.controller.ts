@@ -1,7 +1,6 @@
 import { Controller, Get, Query } from "@nestjs/common";
 import SuccessResponse from "types/success.interface";
 import { ProductService } from "./product.service";
-import { ObjectId } from "mongoose";
 
 @Controller("product/search")
 export class ProductSearchontroller {

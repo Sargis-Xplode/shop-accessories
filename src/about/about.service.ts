@@ -14,7 +14,7 @@ export class AboutService {
     ) {}
 
     async getAbout(): Promise<SuccessResponse> {
-        let about: About | null = await this.aboutModel.findOne();
+        let about = await this.aboutModel.findOne<About>();
         if (!about) {
             about = await this.createDefaultAbout();
         }

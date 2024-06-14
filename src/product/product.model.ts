@@ -1,12 +1,12 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
-import { Document, now } from "mongoose";
+import { Document, now, Types } from "mongoose";
 import { mongoosePagination } from "mongoose-paginate-ts";
 import ColorsAndImages from "types/colorsAndImages.interface";
 import ExtraInfo from "../../types/extraInfo.interface";
 
 export interface FilterCategory {
     category_id: string;
-    subcategories: string[];
+    subcategories: Types.ObjectId[];
 }
 
 @Schema({ collection: "products" })
@@ -30,7 +30,7 @@ export class ProductModel extends Document {
     sale: number;
 
     @Prop()
-    available: number;
+    in_stock: number;
 
     @Prop()
     collection_id: string;
@@ -44,8 +44,8 @@ export class ProductModel extends Document {
     @Prop()
     filter_materials: string[];
 
-    @Prop()
-    filter_styles: string[];
+    @Prop({ type: Types.ObjectId })
+    filter_styles: Types.ObjectId;
 
     @Prop()
     filter_occasions: string[];
@@ -61,6 +61,9 @@ export class ProductModel extends Document {
 
     @Prop({ default: now() })
     updatedAt: Date;
+
+    @Prop({ default: null })
+    deletedAt: Date;
 }
 
 export const productModelSchema = SchemaFactory.createForClass(ProductModel);

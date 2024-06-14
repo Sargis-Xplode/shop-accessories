@@ -1,6 +1,6 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from "mongoose";
-import SubCategories from "types/subcategories.interface";
+import SubCategories from "types/armAndEng.interface";
 
 @Schema({ collection: "categories" })
 export class CategoriesModel extends Document {

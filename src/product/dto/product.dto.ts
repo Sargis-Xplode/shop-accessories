@@ -2,6 +2,7 @@ import { IsArray, IsNotEmpty } from "class-validator";
 import ColorsAndImages from "types/colorsAndImages.interface";
 import ExtraInfo from "../../../types/extraInfo.interface";
 import { FilterCategory } from "../product.model";
+import { Types } from "mongoose";
 
 export class ProductDTO {
     @IsNotEmpty()
@@ -23,7 +24,7 @@ export class ProductDTO {
     readonly sale: number;
 
     @IsNotEmpty()
-    readonly available: number;
+    readonly in_stock: number;
 
     @IsNotEmpty()
     readonly collection_id: string;
@@ -38,7 +39,7 @@ export class ProductDTO {
     readonly filter_materials: string[];
 
     @IsArray()
-    readonly filter_styles: string[];
+    readonly filter_styles: Types.ObjectId;
 
     @IsArray()
     readonly filter_occasions: string[];

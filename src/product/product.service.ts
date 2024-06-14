@@ -96,7 +96,7 @@ export class ProductService {
             description_eng,
             price,
             sale,
-            available,
+            in_stock,
             collection_id,
             extra_info,
             filter_categories,
@@ -114,7 +114,7 @@ export class ProductService {
                 description_eng,
                 price,
                 sale,
-                available,
+                in_stock,
                 collection_id,
                 extra_info,
                 filter_categories,
@@ -139,7 +139,7 @@ export class ProductService {
             description_eng,
             price,
             sale,
-            available,
+            in_stock,
             collection_id,
             extra_info,
             filter_categories,
@@ -157,7 +157,7 @@ export class ProductService {
             product.description_eng = description_eng;
             product.price = price;
             product.sale = sale;
-            product.available = available;
+            product.in_stock = in_stock;
             product.collection_id = collection_id;
             product.extra_info = extra_info;
             product.filter_categories = filter_categories;
@@ -175,7 +175,7 @@ export class ProductService {
 
     async deleteProduct(id: string): Promise<SuccessResponse> {
         try {
-            await this.productModel.findByIdAndDelete(id);
+            await this.productModel.findByIdAndDelete(id); // TO DO deletedAt
             return Success(true, "Successfully deleted", null);
         } catch (err) {
             return Success(false, "Something went wrong", null);

@@ -1,9 +1,11 @@
-import { IsNotEmpty } from "class-validator";
+import { MaxLength, MinLength } from "class-validator";
 
 export class SubCategoriesDTO {
-    @IsNotEmpty()
+    @MinLength(1)
+    @MaxLength(100)
     readonly subcategory_arm: string;
 
-    @IsNotEmpty()
+    @MinLength(1)
+    @MaxLength(100)
     readonly subcategory_eng: string;
 }

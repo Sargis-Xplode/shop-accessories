@@ -1,4 +1,3 @@
-// about.module.ts
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Privacy, PrivacySchema } from "./privacy.model";

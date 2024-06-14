@@ -1,6 +1,6 @@
 interface ColorsAndImages {
     color: string;
-    images: File[];
+    images: string[];
     sizes?: number[];
 }
 

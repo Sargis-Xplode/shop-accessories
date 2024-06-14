@@ -22,6 +22,7 @@ export class AuthService {
         const { email, password } = body;
         const admin = await this.adminsModel.findOne({ email });
         const token = this.jwtService.sign({ email });
+
         if (admin) {
             if (await bcrypt.compare(password, admin.password))
                 return Success(true, "Logged in successfully", {
@@ -49,6 +50,7 @@ export class AuthService {
         if (!adminDecoded) {
             return Success(false, "Unauthorized", null);
         }
+
         const admin = await this.adminsModel.findOne({ email: adminDecoded.email });
 
         if (admin) {

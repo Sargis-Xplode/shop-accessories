@@ -1,13 +1,15 @@
-import { ArrayMinSize, IsArray, IsNotEmpty } from "class-validator";
+import { ArrayMinSize, IsArray, IsNotEmpty, Length, MaxLength, MinLength } from "class-validator";
 import { Types } from "mongoose";
-import SubCategories from "types/subcategories.interface";
+import SubCategories from "types/armAndEng.interface";
 import { SubCategoriesDTO } from "./subcategories.dto";
 
 export class CategoriesDTO {
-    @IsNotEmpty()
+    @MinLength(1)
+    @MaxLength(100)
     readonly category_arm: string;
 
-    @IsNotEmpty()
+    @MinLength(1)
+    @MaxLength(100)
     readonly category_eng: string;
 
     @IsArray()
