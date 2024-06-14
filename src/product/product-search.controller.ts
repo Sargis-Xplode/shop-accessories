@@ -16,6 +16,8 @@ export class ProductSearchontroller {
         @Query("materials") materials: string[],
         @Query("styles") styles: string[],
         @Query("occasions") occasions: string[],
+        @Query("min_price") min_price: number,
+        @Query("max_price") max_price: number,
         @Query("sort") sort: string,
         @Query("sale") sale: boolean
     ): Promise<SuccessResponse> {
@@ -28,7 +30,9 @@ export class ProductSearchontroller {
             styles || [],
             occasions || [],
             sort || "asc",
-            sale || false
+            sale || false,
+            min_price || 0,
+            max_price
         );
     }
 }

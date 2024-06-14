@@ -7,6 +7,7 @@ import { FiltersController } from "./filters.controller";
 import { FilterMaterialModel, filterMaterialModelSchema } from "src/filter-material/filter-material.model";
 import { FilterStyleModel, filterStyleModelSchema } from "src/filter-style/filter-style.model";
 import { FilterOccasionModel, filterOccasionModelSchema } from "src/filter-occasion/filter-occasion.model";
+import { SubCategoryModel, subCategorySchema } from "./subcategories.model";
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { FilterOccasionModel, filterOccasionModelSchema } from "src/filter-occas
         MongooseModule.forFeature([{ name: FilterMaterialModel.name, schema: filterMaterialModelSchema }]),
         MongooseModule.forFeature([{ name: FilterStyleModel.name, schema: filterStyleModelSchema }]),
         MongooseModule.forFeature([{ name: FilterOccasionModel.name, schema: filterOccasionModelSchema }]),
+        MongooseModule.forFeature([{ name: SubCategoryModel.name, schema: subCategorySchema }]),
     ],
     controllers: [CategoriesController, FiltersController],
     providers: [CategoriesService],

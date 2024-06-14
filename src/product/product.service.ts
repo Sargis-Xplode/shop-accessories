@@ -5,7 +5,6 @@ import { Pagination } from "mongoose-paginate-ts";
 import Success from "../../utils/success-response";
 import { ProductModel } from "./product.model";
 import { ProductDTO } from "./dto/product.dto";
-import { Types } from "mongoose";
 
 @Injectable()
 export class ProductService {
@@ -38,28 +37,40 @@ export class ProductService {
         styles: string[],
         occasions: string[],
         sort: string,
-        sale: boolean
+        sale: boolean,
+        min_price: number,
+        max_price: number
     ): Promise<SuccessResponse> {
         const query: any = {};
 
         if (category_id) {
             query["filter_categories.category_id"] = category_id;
         }
-        if (subcategories.length > 0) {
+        if (subcategories.length) {
             query["filter_categories.subcategories"] = { $in: subcategories };
         }
-        if (materials.length > 0) {
+        if (materials.length) {
             query.filter_materials = { $in: materials };
         }
-        if (styles.length > 0) {
+        if (styles.length) {
             query.filter_styles = { $in: styles };
         }
-        if (occasions.length > 0) {
+        if (occasions.length) {
             query.filter_occasions = { $in: occasions };
         }
-
         if (sale) {
             query.sale = { $gt: 0 };
+        }
+
+        if (min_price !== undefined && min_price !== null) {
+            query.price = { $gte: min_price };
+        }
+
+        if (max_price !== undefined && max_price !== null) {
+            if (!query.price) {
+                query.price = {};
+            }
+            query.price.$lte = max_price;
         }
 
         try {

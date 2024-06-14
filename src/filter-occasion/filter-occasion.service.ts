@@ -53,15 +53,14 @@ export class FilterOccasionService {
         }
     }
 
-    async toggleActive(id: string, active: boolean): Promise<SuccessResponse> {
+    async toggleActive(id: string, active: string): Promise<SuccessResponse> {
         try {
             const filterOccasion = await this.filterOccasionModel.findById(id);
             if (filterOccasion) {
-                filterOccasion.active = active;
+                filterOccasion.active = active === "true";
                 await filterOccasion.save();
 
-                // This condition doestn work, change later
-                if (active) {
+                if (active === "true") {
                     console.log("here", active);
                     return Success(true, "Activated successfully", filterOccasion);
                 } else {

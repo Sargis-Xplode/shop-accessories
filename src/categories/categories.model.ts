@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 import SubCategories from "types/subcategories.interface";
 
 @Schema({ collection: "categories" })
@@ -10,8 +10,8 @@ export class CategoriesModel extends Document {
     @Prop()
     category_eng: string;
 
-    @Prop()
-    subCategories: SubCategories[];
+    @Prop({ type: [{ type: Types.ObjectId, ref: "SubCategory" }] })
+    subCategories: Types.ObjectId[];
 
     @Prop()
     active: boolean;

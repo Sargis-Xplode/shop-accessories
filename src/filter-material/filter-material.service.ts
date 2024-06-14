@@ -53,15 +53,14 @@ export class FilterMaterialService {
         }
     }
 
-    async toggleActive(id: string, active: boolean): Promise<SuccessResponse> {
+    async toggleActive(id: string, active: string): Promise<SuccessResponse> {
         try {
             const filterMaterial = await this.filterMaterialModel.findById(id);
             if (filterMaterial) {
-                filterMaterial.active = active;
+                filterMaterial.active = active === "true";
                 await filterMaterial.save();
 
-                // This condition doestn work, change later
-                if (active) {
+                if (active === "true") {
                     console.log("here", active);
                     return Success(true, "Activated successfully", filterMaterial);
                 } else {

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import SuccessResponse from "types/success.interface";
 import { CategoriesDTO } from "./dto/categories.dto";
 import { CategoriesModel } from "./categories.model";
@@ -8,6 +8,8 @@ import Success from "../../utils/success-response";
 import { FilterMaterialModel } from "src/filter-material/filter-material.model";
 import { FilterStyleModel } from "src/filter-style/filter-style.model";
 import { FilterOccasionModel } from "src/filter-occasion/filter-occasion.model";
+import { SubCategoriesDTO } from "./dto/subcategories.dto";
+import { SubCategoryModel } from "./subcategories.model";
 
 @Injectable()
 export class CategoriesService {
@@ -22,7 +24,10 @@ export class CategoriesService {
         private readonly filterOccasionModel: Model<FilterOccasionModel>,
 
         @InjectModel(CategoriesModel.name)
-        private readonly categoriesModel: Model<CategoriesModel>
+        private readonly categoriesModel: Model<CategoriesModel>,
+
+        @InjectModel(SubCategoryModel.name)
+        private subCategoryModel: Model<SubCategoryModel>
     ) {}
 
     async getCategories(): Promise<SuccessResponse> {
@@ -54,11 +59,14 @@ export class CategoriesService {
 
     async createCategories(body: CategoriesDTO): Promise<SuccessResponse> {
         const { category_arm, category_eng, subCategories } = body;
+
+        const subcategory_ids = await this.mapSubcategories(subCategories);
+
         try {
             const categories = await this.categoriesModel.create({
                 category_arm,
                 category_eng,
-                subCategories,
+                subCategories: subcategory_ids,
                 active: true,
             });
             return Success(true, "Success", categories);
@@ -67,20 +75,16 @@ export class CategoriesService {
         }
     }
 
-    async toggleActive(id: string, active: boolean): Promise<SuccessResponse> {
+    async toggleActive(id: string, active: string): Promise<SuccessResponse> {
         try {
             const categories = await this.categoriesModel.findById(id);
             if (categories) {
-                categories.active = active;
+                categories.active = active === "true";
                 await categories.save();
 
-                // This condition doestn work, change later
-                if (active) {
-                    console.log("here", active);
+                if (active === "true") {
                     return Success(true, "Activated successfully", categories);
                 } else {
-                    console.log("here 2", active);
-
                     return Success(true, "Deactivated successfully", categories);
                 }
             } else {
@@ -91,14 +95,28 @@ export class CategoriesService {
         }
     }
 
+    async mapSubcategories(subCategories: SubCategoriesDTO[]) {
+        const subcategory_ids = await Promise.all(
+            subCategories.map(async (subcateg: SubCategoriesDTO) => {
+                const subCategory = await this.subCategoryModel.create({
+                    subcategory_arm: subcateg.subcategory_arm,
+                    subcategory_eng: subcateg.subcategory_eng,
+                });
+                return subCategory._id;
+            })
+        );
+        return subcategory_ids;
+    }
+
     async updateCategories(id: string, body: CategoriesDTO): Promise<SuccessResponse> {
         const { category_arm, category_eng, subCategories } = body;
+        const subcategory_ids: any = await this.mapSubcategories(subCategories);
 
         const categories = await this.categoriesModel.findById(id);
         if (categories) {
             categories.category_arm = category_arm;
             categories.category_eng = category_eng;
-            categories.subCategories = subCategories;
+            categories.subCategories = subcategory_ids;
 
             await categories.save();
 

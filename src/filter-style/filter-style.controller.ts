@@ -23,7 +23,7 @@ export class FilterStyleController {
     }
 
     @Put(":id/active")
-    async toggleActive(@Param("id") id: string, @Query("active") active: boolean): Promise<SuccessResponse> {
+    async toggleActive(@Param("id") id: string, @Query("active") active: string): Promise<SuccessResponse> {
         return await this.filterStyleService.toggleActive(id, active);
     }
 

@@ -53,15 +53,14 @@ export class FilterStyleService {
         }
     }
 
-    async toggleActive(id: string, active: boolean): Promise<SuccessResponse> {
+    async toggleActive(id: string, active: string): Promise<SuccessResponse> {
         try {
             const filterStyle = await this.filterStyleModel.findById(id);
             if (filterStyle) {
-                filterStyle.active = active;
+                filterStyle.active = active === "true";
                 await filterStyle.save();
 
-                // This condition doestn work, change later
-                if (active) {
+                if (active === "true") {
                     console.log("here", active);
                     return Success(true, "Activated successfully", filterStyle);
                 } else {

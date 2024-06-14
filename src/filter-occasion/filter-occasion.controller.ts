@@ -23,7 +23,7 @@ export class FilterOccasionController {
     }
 
     @Put(":id/active")
-    async toggleActive(@Param("id") id: string, @Query("active") active: boolean): Promise<SuccessResponse> {
+    async toggleActive(@Param("id") id: string, @Query("active") active: string): Promise<SuccessResponse> {
         return await this.filterOccasionService.toggleActive(id, active);
     }
 
