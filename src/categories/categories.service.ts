@@ -32,12 +32,16 @@ export class CategoriesService {
 
     async getCategories(): Promise<SuccessResponse> {
         try {
-            const categories = await this.categoriesModel.find();
+            const categories = await this.categoriesModel.find().populate({
+                path: "subCategories",
+                model: "SubCategoryModel",
+            });
             return Success(true, "Success", categories);
         } catch (err) {
             return Success(false, err, null);
         }
     }
+    c;
 
     async getFilters(): Promise<SuccessResponse> {
         const filterMaterials = await this.filterMaterialModel.find();

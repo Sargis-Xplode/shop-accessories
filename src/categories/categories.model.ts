@@ -10,7 +10,7 @@ export class CategoriesModel extends Document {
     @Prop()
     category_eng: string;
 
-    @Prop({ type: [{ type: Types.ObjectId, ref: "SubCategory" }] })
+    @Prop({ type: [{ type: Types.ObjectId, ref: "SubCategoryModel" }] })
     subCategories: Types.ObjectId[];
 
     @Prop()
