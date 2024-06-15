@@ -48,9 +48,11 @@ export class CategoriesService {
                 this.filterMaterialModel.find(), // TO DO lang query
                 this.filterStyleModel.find(),
                 this.filterOccasionModel.find(),
-                this.categoriesModel.find(),
+                this.categoriesModel.find().populate({
+                    path: "subCategories",
+                    model: "SubCategoryModel",
+                }),
             ]).then((values) => {
-                console.log(values);
                 return values;
             });
 
@@ -75,12 +77,17 @@ export class CategoriesService {
 
         try {
             const categories = await this.categoriesModel.create({
-                category_arm,
-                category_eng,
+                name_arm: category_arm,
+                name_eng: category_eng,
                 subCategories: subcategory_ids,
                 active: true,
             });
-            return Success(true, "Success", null);
+            return Success(true, "Success", {
+                name_arm: category_arm,
+                name_eng: category_eng,
+                subCategories: subCategories,
+                active: true,
+            });
         } catch (err) {
             return Success(false, err, null);
         }
@@ -119,8 +126,8 @@ export class CategoriesService {
 
         const categories = await this.categoriesModel.findById(id);
         if (categories) {
-            categories.category_arm = category_arm;
-            categories.category_eng = category_eng;
+            categories.name_arm = category_arm;
+            categories.name_eng = category_eng;
             categories.subCategories = subcategory_ids;
 
             await categories.save();

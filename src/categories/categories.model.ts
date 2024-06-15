@@ -5,10 +5,10 @@ import SubCategories from "types/armAndEng.interface";
 @Schema({ collection: "categories" })
 export class CategoriesModel extends Document {
     @Prop()
-    category_arm: string;
+    name_arm: string;
 
     @Prop()
-    category_eng: string;
+    name_eng: string;
 
     @Prop({ type: [{ type: Types.ObjectId, ref: "SubCategoryModel" }] })
     subCategories: Types.ObjectId[];

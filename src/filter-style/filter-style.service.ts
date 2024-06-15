@@ -61,11 +61,8 @@ export class FilterStyleService {
                 await filterStyle.save();
 
                 if (active === "true") {
-                    console.log("here", active);
                     return Success(true, "Activated successfully", filterStyle);
                 } else {
-                    console.log("here 2", active);
-
                     return Success(true, "Deactivated successfully", filterStyle);
                 }
             } else {

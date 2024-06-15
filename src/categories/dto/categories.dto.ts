@@ -1,6 +1,4 @@
-import { ArrayMinSize, IsArray, IsNotEmpty, Length, MaxLength, MinLength } from "class-validator";
-import { Types } from "mongoose";
-import SubCategories from "types/armAndEng.interface";
+import { ArrayMinSize, IsArray, MaxLength, MinLength } from "class-validator";
 import { SubCategoriesDTO } from "./subcategories.dto";
 
 export class CategoriesDTO {

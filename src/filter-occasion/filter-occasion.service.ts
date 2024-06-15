@@ -61,11 +61,8 @@ export class FilterOccasionService {
                 await filterOccasion.save();
 
                 if (active === "true") {
-                    console.log("here", active);
                     return Success(true, "Activated successfully", filterOccasion);
                 } else {
-                    console.log("here 2", active);
-
                     return Success(true, "Deactivated successfully", filterOccasion);
                 }
             } else {

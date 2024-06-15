@@ -238,7 +238,6 @@ const sendEmail = async (messageData: MessageData) => {
 
         return response.MessageId ? { ok: true } : { ok: false, msg: "Failed to send email" };
     } catch (error) {
-        console.log("ERROR", error);
         return { ok: false, msg: "Failed to send email" };
     }
 };
