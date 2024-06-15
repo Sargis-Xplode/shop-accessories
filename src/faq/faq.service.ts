@@ -29,13 +29,14 @@ export class FAQService {
     }
 
     async createFAQ(body: FAQDTO) {
-        const { question_arm, question_eng, answer_arm, answer_eng } = body;
+        const { question_arm, question_eng, answer_arm, answer_eng, category } = body;
 
         const faq = await this.faqModel.create({
             question_arm,
             question_eng,
             answer_arm,
             answer_eng,
+            category,
         });
         if (faq) {
             return Success(true, "Successfully created", faq);

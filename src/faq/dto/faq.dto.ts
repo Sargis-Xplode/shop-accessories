@@ -12,4 +12,7 @@ export class FAQDTO {
 
     @IsNotEmpty()
     readonly answer_eng: string;
+
+    @IsNotEmpty()
+    readonly category: string;
 }

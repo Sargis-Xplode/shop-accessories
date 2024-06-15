@@ -15,6 +15,9 @@ export class FAQModel extends Document {
 
     @Prop()
     answer_eng: string;
+
+    @Prop()
+    category: string;
 }
 
 export const faqModelSchema = SchemaFactory.createForClass(FAQModel);
