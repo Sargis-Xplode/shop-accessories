@@ -32,23 +32,28 @@ export class ProductModel extends Document {
     @Prop()
     in_stock: number;
 
-    @Prop()
-    collection_id: string;
+    @Prop({ type: Types.ObjectId, ref: "Collections" })
+    collection_id: Types.ObjectId;
 
     @Prop({ type: Object })
     extra_info: ExtraInfo;
 
-    @Prop({ type: Object })
+    @Prop({
+        type: {
+            category_id: { type: Types.ObjectId, ref: "CategoriesModel" },
+            subcategories: [{ type: Types.ObjectId, ref: "SubCategoryModel" }],
+        },
+    })
     filter_categories: FilterCategory;
 
-    @Prop()
-    filter_materials: string[];
+    @Prop({ type: [{ type: Types.ObjectId, ref: "FilterMaterialModel" }] })
+    filter_materials: Types.ObjectId[];
 
-    @Prop({ type: Types.ObjectId })
+    @Prop({ type: Types.ObjectId, ref: "FilterStyleModel" })
     filter_styles: Types.ObjectId;
 
-    @Prop()
-    filter_occasions: string[];
+    @Prop({ type: [{ type: Types.ObjectId, ref: "FilterOccasionModel" }] })
+    filter_occasions: Types.ObjectId[];
 
     @Prop()
     colors_and_images: ColorsAndImages[];

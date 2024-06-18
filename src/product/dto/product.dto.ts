@@ -27,7 +27,7 @@ export class ProductDTO {
     readonly in_stock: number;
 
     @IsNotEmpty()
-    readonly collection_id: string;
+    readonly collection_id: Types.ObjectId;
 
     @IsNotEmpty()
     readonly extra_info: ExtraInfo;
@@ -36,13 +36,13 @@ export class ProductDTO {
     readonly filter_categories: FilterCategory;
 
     @IsArray()
-    readonly filter_materials: string[];
+    readonly filter_materials: Types.ObjectId[];
 
-    @IsArray()
+    @IsNotEmpty()
     readonly filter_styles: Types.ObjectId;
 
     @IsArray()
-    readonly filter_occasions: string[];
+    readonly filter_occasions: Types.ObjectId[];
 
     @IsArray()
     readonly colors_and_images: ColorsAndImages[];

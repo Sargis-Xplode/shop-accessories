@@ -44,7 +44,8 @@ export class ProductService {
         min_price: number,
         max_price: number,
         sort_by: string,
-        sort_type: string
+        sort_type: string,
+        search_term: string
     ): Promise<SuccessResponse> {
         const query: any = {};
 
@@ -78,22 +79,28 @@ export class ProductService {
             query.price.$lte = max_price;
         }
 
-        let sortQuerry = {};
-        switch (sort_by) {
+        if (search_term.length) {
+            query.$or = [
+                { name_eng: { $regex: search_term, $options: "i" } },
+                { name_arm: { $regex: search_term, $options: "i" } },
+                { description_eng: { $regex: search_term, $options: "i" } },
+                { description_arm: { $regex: search_term, $options: "i" } },
+            ];
         }
+
+        let sortQuerry = {};
 
         switch (sort_by) {
             case "price":
                 sortQuerry = {
                     price: sort_type === "asc" ? 1 : -1,
                 };
+                break;
             default:
                 sortQuerry = {
                     createdAt: sort_type === "asc" ? 1 : -1,
                 };
         }
-
-        console.log(sortQuerry);
 
         try {
             let data = await this.productModel.paginate({
@@ -101,6 +108,14 @@ export class ProductService {
                 limit,
                 page,
                 sort: sortQuerry,
+                populate: [
+                    { path: "filter_categories.category_id", model: "CategoriesModel" },
+                    { path: "filter_categories.subcategories", model: "SubCategoryModel" },
+                    { path: "collection_id", model: "Collections" },
+                    { path: "filter_styles", model: "FilterStyleModel" },
+                    { path: "filter_materials", model: "FilterMaterialModel" },
+                    { path: "filter_occasions", model: "FilterOccasionModel" },
+                ],
             });
 
             return Success(true, "Successful", data);
