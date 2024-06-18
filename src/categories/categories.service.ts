@@ -42,7 +42,7 @@ export class CategoriesService {
         }
     }
 
-    async getFilters(): Promise<SuccessResponse> {
+    async getFilters(active: string): Promise<SuccessResponse> {
         try {
             const data = await Promise.all([
                 this.filterMaterialModel.find(), // TO DO lang query
@@ -56,7 +56,15 @@ export class CategoriesService {
                 return values;
             });
 
-            const [materials, styles, occasions, categories] = data;
+            let [materials, styles, occasions, categories] = data;
+
+            if (active === "true") {
+                categories = categories.filter((item) => item.active);
+                materials = materials.filter((item) => item.active);
+                styles = styles.filter((item) => item.active);
+                occasions = occasions.filter((item) => item.active);
+            }
+
             if (data.length) {
                 return Success(true, "Successful", {
                     categories,

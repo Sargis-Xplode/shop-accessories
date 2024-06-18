@@ -17,7 +17,8 @@ export class ProductSearchontroller {
         @Query("occasions") occasions: string[],
         @Query("min_price") min_price: number,
         @Query("max_price") max_price: number,
-        @Query("sort") sort: string,
+        @Query("sort_by") sort_by: string,
+        @Query("sort_type") sort_type: string,
         @Query("sale") sale: boolean
     ): Promise<SuccessResponse> {
         return await this.productService.searchProducts(
@@ -28,10 +29,11 @@ export class ProductSearchontroller {
             materials || [],
             styles || [],
             occasions || [],
-            sort || "asc",
             sale || false,
             min_price || 0,
-            max_price
+            max_price,
+            sort_by,
+            sort_type || "asc"
         );
     }
 }

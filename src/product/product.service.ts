@@ -5,12 +5,16 @@ import { Pagination } from "mongoose-paginate-ts";
 import Success from "../../utils/success-response";
 import { ProductModel } from "./product.model";
 import { ProductDTO } from "./dto/product.dto";
+import { CategoriesModel } from "src/categories/categories.model";
 
 @Injectable()
 export class ProductService {
     constructor(
         @InjectModel(ProductModel.name)
-        private readonly productModel: Pagination<ProductModel>
+        private readonly productModel: Pagination<ProductModel>,
+
+        @InjectModel(CategoriesModel.name)
+        private readonly categoryModel: Pagination<CategoriesModel>
     ) {}
 
     async getProducts(page: number, limit: number): Promise<SuccessResponse> {
@@ -36,10 +40,11 @@ export class ProductService {
         materials: string[],
         styles: string[],
         occasions: string[],
-        sort: string,
         sale: boolean,
         min_price: number,
-        max_price: number
+        max_price: number,
+        sort_by: string,
+        sort_type: string
     ): Promise<SuccessResponse> {
         const query: any = {};
 
@@ -73,15 +78,31 @@ export class ProductService {
             query.price.$lte = max_price;
         }
 
+        let sortQuerry = {};
+        switch (sort_by) {
+        }
+
+        switch (sort_by) {
+            case "price":
+                sortQuerry = {
+                    price: sort_type === "asc" ? 1 : -1,
+                };
+            default:
+                sortQuerry = {
+                    createdAt: sort_type === "asc" ? 1 : -1,
+                };
+        }
+
+        console.log(sortQuerry);
+
         try {
-            const data = await this.productModel.paginate({
+            let data = await this.productModel.paginate({
                 query,
                 limit,
                 page,
-                sort: {
-                    createdAt: sort === "asc" ? 1 : -1,
-                },
+                sort: sortQuerry,
             });
+
             return Success(true, "Successful", data);
         } catch (err) {
             return Success(false, "Unsuccessful", null);
