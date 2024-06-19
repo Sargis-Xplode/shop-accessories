@@ -8,16 +8,21 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Get()
-    async getProducts(@Query("page") page: string, @Query("limit") limit: string): Promise<SuccessResponse> {
-        return await this.productService.getProducts(parseInt(page) || 1, parseInt(limit) || 10);
+    async getProducts(
+        @Query("page") page: string,
+        @Query("limit") limit: string,
+        @Query("id") id: string
+    ): Promise<SuccessResponse> {
+        const pageNumber = parseInt(page) || 1;
+        const limitNumber = parseInt(limit) || 10;
+        if (id) {
+            return await this.productService.getSingleProduct(id);
+        } else {
+            return await this.productService.getProducts(pageNumber, limitNumber);
+        }
     }
 
-    @Get(":id")
-    async getSingleProduct(@Param("id") id: string): Promise<SuccessResponse> {
-        return await this.productService.getSingleProduct(id);
-    }
-
-    @Post("")
+    @Post()
     async createProduct(@Body() body: ProductDTO): Promise<SuccessResponse> {
         return await this.productService.createProduct(body);
     }

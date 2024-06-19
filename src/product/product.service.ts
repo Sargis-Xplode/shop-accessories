@@ -41,7 +41,7 @@ export class ProductService {
                 .exec();
             return Success(true, "Successful", product);
         } catch (err) {
-            return Success(false, "Unsuccessful", null);
+            return Success(false, err.message, null);
         }
     }
 
