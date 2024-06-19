@@ -12,6 +12,11 @@ export class ProductController {
         return await this.productService.getProducts(parseInt(page) || 1, parseInt(limit) || 10);
     }
 
+    @Get(":id")
+    async getSingleProduct(@Param("id") id: string): Promise<SuccessResponse> {
+        return await this.productService.getSingleProduct(id);
+    }
+
     @Post("")
     async createProduct(@Body() body: ProductDTO): Promise<SuccessResponse> {
         return await this.productService.createProduct(body);
@@ -27,4 +32,3 @@ export class ProductController {
         return await this.productService.deleteProduct(id);
     }
 }
-

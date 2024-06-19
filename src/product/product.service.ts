@@ -5,16 +5,12 @@ import { Pagination } from "mongoose-paginate-ts";
 import Success from "../../utils/success-response";
 import { ProductModel } from "./product.model";
 import { ProductDTO } from "./dto/product.dto";
-import { CategoriesModel } from "src/categories/categories.model";
 
 @Injectable()
 export class ProductService {
     constructor(
         @InjectModel(ProductModel.name)
-        private readonly productModel: Pagination<ProductModel>,
-
-        @InjectModel(CategoriesModel.name)
-        private readonly categoryModel: Pagination<CategoriesModel>
+        private readonly productModel: Pagination<ProductModel>
     ) {}
 
     async getProducts(page: number, limit: number): Promise<SuccessResponse> {
@@ -27,6 +23,23 @@ export class ProductService {
                 },
             });
             return Success(true, "Successful", data);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async getSingleProduct(id: string): Promise<SuccessResponse> {
+        try {
+            const product = await this.productModel
+                .findById(id)
+                .populate({ path: "filter_categories.category_id", model: "CategoriesModel" })
+                .populate({ path: "filter_categories.subcategories", model: "SubCategoryModel" })
+                .populate({ path: "collection_id", model: "Collections" })
+                .populate({ path: "filter_styles", model: "FilterStyleModel" })
+                .populate({ path: "filter_materials", model: "FilterMaterialModel" })
+                .populate({ path: "filter_occasions", model: "FilterOccasionModel" })
+                .exec();
+            return Success(true, "Successful", product);
         } catch (err) {
             return Success(false, "Unsuccessful", null);
         }
