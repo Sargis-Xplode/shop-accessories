@@ -49,6 +49,7 @@ export class ProductService {
         page: number,
         limit: number,
         category_id: string,
+        collection_id: string,
         subcategories: string[],
         materials: string[],
         styles: string[],
@@ -62,9 +63,16 @@ export class ProductService {
     ): Promise<SuccessResponse> {
         const query: any = {};
 
+        // query.active = true;
+
         if (category_id) {
             query["filter_categories.category_id"] = category_id;
         }
+
+        if (collection_id) {
+            query["collection_id"] = collection_id;
+        }
+
         if (subcategories.length) {
             query["filter_categories.subcategories"] = { $in: subcategories };
         }
@@ -218,6 +226,20 @@ export class ProductService {
             await product.save();
             return Success(true, "Successfully updated", product);
         } else {
+            return Success(false, "Something went wrong", null);
+        }
+    }
+
+    async toggleProductActive(id: string, active: string): Promise<SuccessResponse> {
+        try {
+            const product = await this.productModel.findById(id);
+            product.active = active === "true";
+            await product.save();
+
+            return Success(true, `Successfully ${active === "true" ? "activated" : "deactivated"}`, {
+                active: product.active,
+            });
+        } catch (err) {
             return Success(false, "Something went wrong", null);
         }
     }

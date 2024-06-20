@@ -32,6 +32,11 @@ export class ProductController {
         return await this.productService.updateProduct(id, body);
     }
 
+    @Put(":id/active")
+    async toggleProductActive(@Param("id") id: string, @Query("active") active: string): Promise<SuccessResponse> {
+        return await this.productService.toggleProductActive(id, active);
+    }
+
     @Delete(":id")
     async deleteProduct(@Param("id") id: string): Promise<SuccessResponse> {
         return await this.productService.deleteProduct(id);
