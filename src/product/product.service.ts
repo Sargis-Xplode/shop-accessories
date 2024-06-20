@@ -59,12 +59,19 @@ export class ProductService {
         max_price: number,
         sort_by: string,
         sort_type: string,
-        search_term: string
+        search_term: string,
+        in_stock: boolean,
+        active: boolean
     ): Promise<SuccessResponse> {
         const query: any = {};
 
-        // query.active = true;
-        // query.in_stock = { $gt: 0 };
+        if (active) {
+            query.active = true;
+        }
+
+        if (in_stock) {
+            query.in_stock = { $gt: 0 };
+        }
 
         if (category_id) {
             query["filter_categories.category_id"] = category_id;

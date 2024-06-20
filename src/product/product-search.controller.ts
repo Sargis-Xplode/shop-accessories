@@ -21,7 +21,9 @@ export class ProductSearchontroller {
         @Query("sort_by") sort_by: string,
         @Query("sort_type") sort_type: string,
         @Query("sale") sale: boolean,
-        @Query("search_term") search_term: string
+        @Query("search_term") search_term: string,
+        @Query("in_stock") in_stock: boolean,
+        @Query("active") active: boolean
     ): Promise<SuccessResponse> {
         return await this.productService.searchProducts(
             parseInt(page) || 1,
@@ -37,7 +39,9 @@ export class ProductSearchontroller {
             max_price,
             sort_by,
             sort_type || "asc",
-            search_term || ""
+            search_term || "",
+            in_stock,
+            active || true
         );
     }
 }
