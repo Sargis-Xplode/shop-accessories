@@ -26,8 +26,8 @@ export class ProductSearchontroller {
         return await this.productService.searchProducts(
             parseInt(page) || 1,
             parseInt(limit) || 10,
-            category_id,
-            collection_id,
+            category_id || "",
+            collection_id || "",
             subcategories || [],
             materials || [],
             styles || [],
