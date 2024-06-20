@@ -41,7 +41,7 @@ export class ProductSearchontroller {
             sort_type || "asc",
             search_term || "",
             in_stock,
-            active || true
+            active
         );
     }
 }
