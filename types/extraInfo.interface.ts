@@ -10,6 +10,8 @@ interface ExtraInfo {
     return_policy: ArmAndEng;
 
     customer_support: ArmAndEng;
+
+    cancelation_policy: ArmAndEng;
 }
 
 export default ExtraInfo;
