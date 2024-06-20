@@ -64,12 +64,13 @@ export class ProductService {
         const query: any = {};
 
         // query.active = true;
+        // query.in_stock = { $gt: 0 };
 
-        if (category_id) {
+        if (category_id.length) {
             query["filter_categories.category_id"] = category_id;
         }
 
-        if (collection_id) {
+        if (collection_id.length) {
             query["collection_id"] = collection_id;
         }
 
