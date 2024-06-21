@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional } from "class-validator";
 import ColorsAndImages from "types/colorsAndImages.interface";
 import ExtraInfo from "../../../types/extraInfo.interface";
 import { FilterCategory } from "../product.model";
@@ -26,8 +26,9 @@ export class ProductDTO {
     @IsNotEmpty()
     readonly in_stock: number;
 
+    @IsOptional()
     @IsNotEmpty()
-    readonly collection_id: Types.ObjectId;
+    readonly collection_id?: Types.ObjectId;
 
     @IsNotEmpty()
     readonly extra_info: ExtraInfo;
