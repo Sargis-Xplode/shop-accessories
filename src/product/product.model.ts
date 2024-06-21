@@ -32,7 +32,7 @@ export class ProductModel extends Document {
     @Prop()
     in_stock: number;
 
-    @Prop({ type: Types.ObjectId, ref: "Collections" })
+    @Prop({ type: Types.ObjectId, ref: "Collections", required: false })
     collection_id: Types.ObjectId;
 
     @Prop({ type: Object })
