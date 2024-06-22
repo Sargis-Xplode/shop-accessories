@@ -44,11 +44,17 @@ export class CategoriesService {
 
     async getFilters(active: string): Promise<SuccessResponse> {
         try {
+            let filter = {};
+
+            if (active === "true") {
+                filter["active"] = true;
+            }
+
             const data = await Promise.all([
-                this.filterMaterialModel.find(), // TO DO lang query
-                this.filterStyleModel.find(),
-                this.filterOccasionModel.find(),
-                this.categoriesModel.find().populate({
+                this.filterMaterialModel.find(filter), // TO DO lang query
+                this.filterStyleModel.find(filter),
+                this.filterOccasionModel.find(filter),
+                this.categoriesModel.find(filter).populate({
                     path: "subCategories",
                     model: "SubCategoryModel",
                 }),
@@ -56,14 +62,14 @@ export class CategoriesService {
                 return values;
             });
 
-            let [materials, styles, occasions, categories] = data;
+            const [materials, styles, occasions, categories] = data;
 
-            if (active === "true") {
-                categories = categories.filter((item) => item.active);
-                materials = materials.filter((item) => item.active);
-                styles = styles.filter((item) => item.active);
-                occasions = occasions.filter((item) => item.active);
-            }
+            // if (active === "true") {
+            //     categories = categories.filter((item) => item.active); // TO DO
+            //     materials = materials.filter((item) => item.active);
+            //     styles = styles.filter((item) => item.active);
+            //     occasions = occasions.filter((item) => item.active);
+            // }
 
             if (data.length) {
                 return Success(true, "Successful", {

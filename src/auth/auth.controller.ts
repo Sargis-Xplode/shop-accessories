@@ -1,6 +1,8 @@
-import { Body, Controller, Post, Req } from "@nestjs/common";
+import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import SuccessResponse from "types/success.interface";
+import { AuthGuard } from "@nestjs/passport";
+import { Request } from "express";
 
 export interface LoginDTO {
     email: string;
@@ -10,6 +12,13 @@ export interface LoginDTO {
 @Controller("auth")
 export class AuthController {
     constructor(private authService: AuthService) {}
+
+    @Get()
+    @UseGuards(AuthGuard("jwt"))
+    async getAdminData(@Req() req: Request): Promise<SuccessResponse> {
+        const token = req.headers.authorization.split(" ")[1];
+        return this.authService.getAdminData(token, req);
+    }
 
     @Post("login")
     async login(@Body() body: LoginDTO): Promise<SuccessResponse> {

@@ -36,6 +36,15 @@ export class AuthService {
         }
     }
 
+    async getAdminData(token: string, req: any) {
+        const decodedToken = this.jwtService.verify(token);
+        if (decodedToken) {
+            return Success(true, "Authorized", decodedToken);
+        } else {
+            return Success(false, "Unauthorized", null);
+        }
+    }
+
     async register(body: LoginDTO) {
         const { email, password } = body;
         const hashedPassword = await bcrypt.hash(password, 10);

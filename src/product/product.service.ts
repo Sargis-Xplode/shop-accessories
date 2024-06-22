@@ -75,15 +75,16 @@ export class ProductService {
 
         if (category_id) {
             query["filter_categories.category_id"] = category_id;
+
+            if (subcategories.length) {
+                query["filter_categories.subcategories"] = { $in: subcategories };
+            }
         }
 
         if (collection_id) {
             query["collection_id"] = collection_id;
         }
 
-        if (subcategories.length) {
-            query["filter_categories.subcategories"] = { $in: subcategories };
-        }
         if (materials.length) {
             query.filter_materials = { $in: materials };
         }

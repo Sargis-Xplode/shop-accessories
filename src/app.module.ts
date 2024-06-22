@@ -13,6 +13,7 @@ import { FilterOccasionModule } from "./filter-occasion/filter-occasion.module";
 import { FilterStyleModule } from "./filter-style/filter-style.module";
 import { ProductModule } from "./product/product.module";
 import { FileUploadModule } from "./file-upload/upload.module";
+import { OrdersModule } from "./orders/orders.module";
 
 require("dotenv").config();
 
@@ -32,6 +33,7 @@ require("dotenv").config();
         FilterStyleModule,
         ProductModule,
         FileUploadModule,
+        OrdersModule,
     ],
 })
 export class AppModule {}

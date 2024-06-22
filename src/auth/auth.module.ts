@@ -5,6 +5,7 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+import { JwtStrategy } from "./jwt.strategy";
 
 require("dotenv").config();
 
@@ -15,11 +16,11 @@ require("dotenv").config();
         JwtModule.register({
             secret: process.env.JWT_KEY,
             signOptions: {
-                expiresIn: 3600,
+                expiresIn: "8h",
             },
         }),
     ],
     controllers: [AuthController],
-    providers: [AuthService],
+    providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}
