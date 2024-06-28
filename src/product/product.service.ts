@@ -45,6 +45,121 @@ export class ProductService {
         }
     }
 
+    async getSeasonalProducts(page: number, limit: number): Promise<SuccessResponse> {
+        try {
+            const query: any = {
+                in_stock: { $gt: 0 },
+                seasonal: true,
+            };
+
+            const data = await this.productModel.paginate({
+                query,
+                limit,
+                page,
+                sort: {
+                    createdAt: -1,
+                },
+            });
+            return Success(true, "Successful", data);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async getFeaturedProducts(page: number, limit: number): Promise<SuccessResponse> {
+        try {
+            const query = {
+                collection_id: {
+                    $exists: true,
+                },
+                in_stock: { $gt: 0 },
+            };
+
+            const data = await this.productModel.paginate({
+                query,
+                limit,
+                page,
+                sort: {
+                    createdAt: -1,
+                },
+            });
+            return Success(true, "Successful", data);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async getNewArrivalProducts(page: number, limit: number): Promise<SuccessResponse> {
+        try {
+            const query = {
+                in_stock: { $gt: 0 },
+            };
+
+            const data = await this.productModel.paginate({
+                query,
+                limit,
+                page,
+                sort: {
+                    createdAt: -1,
+                },
+            });
+            return Success(true, "Successful", data);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async getSimilarProducts(
+        page: number,
+        limit: number,
+        id: string,
+        collection_id: string,
+        category_id: string
+    ): Promise<SuccessResponse> {
+        let query: any = {};
+
+        query._id = { $ne: id };
+
+        if (collection_id) {
+            query.collection_id = collection_id;
+        }
+
+        query.category_id = category_id;
+
+        try {
+            const data = await this.productModel.paginate({
+                query,
+                limit,
+                page,
+                sort: {
+                    createdAt: -1,
+                },
+            });
+            return Success(true, "Successful", data);
+        } catch (err) {
+            return Success(false, "Unsuccessful", null);
+        }
+    }
+
+    async getBestSellerProducts(page: number, limit: number, active: string): Promise<SuccessResponse> {
+        // try {
+        //     const query: any = {};
+        //     query.seasonal = active === "true";
+        //     const data = await this.productModel.paginate({
+        //         query,
+        //         limit,
+        //         page,
+        //         sort: {
+        //             createdAt: -1,
+        //         },
+        //     });
+        //     return Success(true, "Successful", data);
+        // } catch (err) {
+        //     return Success(false, "Unsuccessful", null);
+        // }
+        return Success(false, "This function is not ready yet", null);
+    }
+
     async searchProducts(
         page: number,
         limit: number,
@@ -61,12 +176,13 @@ export class ProductService {
         sort_type: string,
         search_term: string,
         in_stock: boolean,
-        active: boolean
+        active: boolean,
+        lang: string
     ): Promise<SuccessResponse> {
         const query: any = {};
 
         if (active) {
-            query.active = true;
+            query.seasonal = true;
         }
 
         if (in_stock) {
@@ -77,7 +193,7 @@ export class ProductService {
             query["filter_categories.category_id"] = category_id;
 
             if (subcategories.length) {
-                query["filter_categories.subcategories"] = { $in: subcategories };
+                query["filter_categories.subcategories"] = { $in: subcategories }; // Doesn't work correctly
             }
         }
 
@@ -86,14 +202,17 @@ export class ProductService {
         }
 
         if (materials.length) {
-            query.filter_materials = { $in: materials };
+            query.filter_materials = { $in: materials }; // Doesn't work correctly
         }
+
         if (styles.length) {
-            query.filter_styles = { $in: styles };
+            query.filter_styles = { $in: styles }; // Doesn't work correctly
         }
+
         if (occasions.length) {
-            query.filter_occasions = { $in: occasions };
+            query.filter_occasions = { $in: occasions }; // Doesn't work correctly
         }
+
         if (sale) {
             query.sale = { $gt: 0 };
         }
@@ -118,12 +237,40 @@ export class ProductService {
             ];
         }
 
-        let sortQuerry = {};
+        let sortQuerry: any = {};
 
         switch (sort_by) {
+            case "name":
+                if (lang === "hy") {
+                    sortQuerry = {
+                        name_arm: sort_type === "asc" ? 1 : -1,
+                    };
+                } else {
+                    sortQuerry = {
+                        name_eng: sort_type === "asc" ? 1 : -1,
+                    };
+                }
+
+                break;
             case "price":
                 sortQuerry = {
                     price: sort_type === "asc" ? 1 : -1,
+                };
+                break;
+
+            case "in_stock":
+                sortQuerry = {
+                    in_stock: sort_type === "asc" ? 1 : -1,
+                };
+                break;
+            case "sale":
+                sortQuerry = {
+                    sale: sort_type === "asc" ? 1 : -1,
+                };
+                break;
+            case "date":
+                sortQuerry = {
+                    createdAt: sort_type === "asc" ? 1 : -1,
                 };
                 break;
             default:
@@ -132,12 +279,22 @@ export class ProductService {
                 };
         }
 
+        // const aggregate = [
+        //     {
+        //         $addFields: {
+        //             sortable_name_arm: { $toLower: "$name_arm" },
+        //             sortable_name_eng: { $toLower: "$name_eng" },
+        //         },
+        //     },
+        // ];
+
         try {
             let data = await this.productModel.paginate({
                 query,
                 limit,
                 page,
                 sort: sortQuerry,
+                // aggregate,
                 populate: [
                     { path: "filter_categories.category_id", model: "CategoriesModel" },
                     { path: "filter_categories.subcategories", model: "SubCategoryModel" },
@@ -181,14 +338,14 @@ export class ProductService {
                 price,
                 sale,
                 in_stock,
-                collection_id,
+                collection_id: collection_id ?? null,
                 extra_info,
                 filter_categories,
                 filter_materials,
                 filter_styles,
                 filter_occasions,
                 colors_and_images,
-                active: true,
+                seasonal: false,
             });
 
             return Success(true, "Successfully created", product);
@@ -242,11 +399,11 @@ export class ProductService {
     async toggleProductActive(id: string, active: string): Promise<SuccessResponse> {
         try {
             const product = await this.productModel.findById(id);
-            product.active = active === "true";
+            product.seasonal = active === "true";
             await product.save();
 
             return Success(true, `Successfully ${active === "true" ? "activated" : "deactivated"}`, {
-                active: product.active,
+                active: product.seasonal,
             });
         } catch (err) {
             return Success(false, "Something went wrong", null);

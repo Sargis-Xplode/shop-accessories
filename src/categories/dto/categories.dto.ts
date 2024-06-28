@@ -1,5 +1,6 @@
-import { ArrayMinSize, IsArray, MaxLength, MinLength } from "class-validator";
+import { ArrayMinSize, IsArray, IsOptional, MaxLength, MinLength } from "class-validator";
 import { SubCategoriesDTO } from "./subcategories.dto";
+import { Transform } from "class-transformer";
 
 export class CategoriesDTO {
     @MinLength(1)
@@ -11,6 +12,6 @@ export class CategoriesDTO {
     readonly category_eng: string;
 
     @IsArray()
-    @ArrayMinSize(1)
+    @IsOptional()
     readonly subCategories: SubCategoriesDTO[];
 }

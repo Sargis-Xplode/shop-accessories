@@ -87,7 +87,7 @@ export class CategoriesService {
     async createCategories(body: CategoriesDTO): Promise<SuccessResponse> {
         const { category_arm, category_eng, subCategories } = body;
 
-        const subcategory_ids = await this.mapSubcategories(subCategories);
+        const subcategory_ids = subCategories.length ? await this.mapSubcategories(subCategories) : [];
 
         try {
             const categories = await this.categoriesModel.create({
@@ -96,12 +96,7 @@ export class CategoriesService {
                 subCategories: subcategory_ids,
                 active: true,
             });
-            return Success(true, "Success", {
-                name_arm: category_arm,
-                name_eng: category_eng,
-                subCategories: subCategories,
-                active: true,
-            });
+            return Success(true, "Success", categories);
         } catch (err) {
             return Success(false, err, null);
         }
@@ -136,7 +131,7 @@ export class CategoriesService {
 
     async updateCategories(id: string, body: CategoriesDTO): Promise<SuccessResponse> {
         const { category_arm, category_eng, subCategories } = body;
-        const subcategory_ids: any = await this.mapSubcategories(subCategories);
+        const subcategory_ids: any = subCategories.length ? await this.mapSubcategories(subCategories) : [];
 
         const categories = await this.categoriesModel.findById(id);
         if (categories) {

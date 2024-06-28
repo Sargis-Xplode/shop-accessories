@@ -23,7 +23,8 @@ export class ProductSearchontroller {
         @Query("sale") sale: boolean,
         @Query("search_term") search_term: string,
         @Query("in_stock") in_stock: boolean,
-        @Query("active") active: boolean
+        @Query("active") active: boolean,
+        @Query("lang") lang: string
     ): Promise<SuccessResponse> {
         return await this.productService.searchProducts(
             parseInt(page) || 1,
@@ -41,7 +42,8 @@ export class ProductSearchontroller {
             sort_type || "asc",
             search_term || "",
             in_stock,
-            active
+            active,
+            lang || "en"
         );
     }
 }

@@ -1,23 +1,29 @@
-import { IsNotEmpty, MinLength, IsEmail, IsPhoneNumber } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
+import { ProductModel } from "src/product/product.model";
+import { CartItemDTO } from "types/cardItem.interface";
 
-export class ContactDTO {
-    @IsNotEmpty()
-    readonly first_name: string;
-
-    @IsNotEmpty()
-    readonly last_name: string;
-
-    @IsEmail()
-    readonly email: string;
-
-    @IsPhoneNumber()
-    readonly phone_number: string;
+export class OrderDTO {
+    @IsOptional()
+    readonly title: string;
 
     @IsNotEmpty()
-    @MinLength(3)
-    readonly subject: string;
+    readonly products: CartItemDTO[];
 
-    @IsNotEmpty()
-    @MinLength(10)
-    readonly message: string;
+    // @IsNotEmpty()
+    // readonly names: string[];
+
+    // @IsNotEmpty()
+    // readonly status: number;
+
+    // @IsNotEmpty()
+    // readonly product_ids: string[];
+
+    // @IsNotEmpty()
+    // readonly prices: number[];
+
+    // @IsNotEmpty()
+    // readonly sales: number[];
+
+    // @IsNotEmpty()
+    // readonly quantities: number[];
 }

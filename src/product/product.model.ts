@@ -59,7 +59,7 @@ export class ProductModel extends Document {
     colors_and_images: ColorsAndImages[];
 
     @Prop()
-    active: boolean;
+    seasonal: boolean;
 
     @Prop({ default: now() })
     createdAt: Date;

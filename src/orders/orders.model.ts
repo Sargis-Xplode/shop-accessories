@@ -1,17 +1,29 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
-import { Document, now } from "mongoose";
+import { Document, Types } from "mongoose";
 import { mongoosePagination } from "mongoose-paginate-ts";
 
-@Schema()
+@Schema({ collection: "orders", timestamps: true })
 export class OrdersModel extends Document {
     @Prop()
-    name: string;
+    title: string;
 
     @Prop()
-    status: string;
+    names: string[];
 
-    @Prop({ default: now() })
-    createdAt: Date;
+    @Prop()
+    status: number;
+
+    @Prop()
+    product_ids: Types.ObjectId[];
+
+    @Prop()
+    prices: number[];
+
+    @Prop()
+    sales: number[];
+
+    @Prop()
+    quantities: number[];
 }
 
 export const ordersSchema = SchemaFactory.createForClass(OrdersModel);
