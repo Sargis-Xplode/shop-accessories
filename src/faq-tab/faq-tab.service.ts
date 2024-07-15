@@ -1,37 +1,38 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import SuccessResponse from "types/success.interface";
-import { FAQModel } from "./faq.model";
-import { FAQDTO } from "./dto/faq.dto";
+import { FAQTabModel } from "./faq-tab.model";
+import { FAQTabDTO } from "./dto/faq-tab.dto";
 import { Pagination } from "mongoose-paginate-ts";
 import Success from "../../utils/success-response";
+import { FAQModel } from "src/faq/faq.model";
 
 @Injectable()
-export class FAQService {
+export class FAQTabService {
     constructor(
+        @InjectModel(FAQTabModel.name)
+        private readonly faqTabModel: Pagination<FAQTabModel>,
+
         @InjectModel(FAQModel.name)
         private readonly faqModel: Pagination<FAQModel>
     ) {}
 
-    async getFAQ(): Promise<SuccessResponse> {
+    async getFAQTabs(): Promise<SuccessResponse> {
         try {
-            const data = await this.faqModel.find();
+            const data = await this.faqTabModel.find();
             return Success(true, "Successful", data);
         } catch (err) {
-            return Success(false, "Unsuccessful", null);
+            return Success(false, "Something went wrong", null);
         }
     }
 
-    async createFAQ(body: FAQDTO): Promise<SuccessResponse> {
-        const { question_arm, question_eng, answer_arm, answer_eng, tab_id } = body;
+    async createFAQTab(body: FAQTabDTO): Promise<SuccessResponse> {
+        const { name_arm, name_eng } = body;
 
         try {
-            const data = await this.faqModel.create({
-                question_arm,
-                question_eng,
-                answer_arm,
-                answer_eng,
-                tab_id,
+            const data = await this.faqTabModel.create({
+                name_arm,
+                name_eng,
             });
 
             return Success(true, "Successful", data);
@@ -40,17 +41,15 @@ export class FAQService {
         }
     }
 
-    async updateFAQ(body: FAQDTO, id: string): Promise<SuccessResponse> {
-        const { question_arm, question_eng, answer_arm, answer_eng } = body;
+    async updateFAQTab(body: FAQTabDTO, id: string): Promise<SuccessResponse> {
+        const { name_arm, name_eng } = body;
 
         try {
-            const faq = await this.faqModel.findById(id);
-            faq.question_arm = question_arm;
-            faq.question_eng = question_eng;
-            faq.answer_arm = answer_arm;
-            faq.answer_eng = answer_eng;
+            const tab = await this.faqTabModel.findById(id);
+            tab.name_arm = name_arm;
+            tab.name_eng = name_eng;
 
-            await faq.save();
+            await tab.save();
 
             return Success(true, "Successful", null);
         } catch (err) {
@@ -58,9 +57,12 @@ export class FAQService {
         }
     }
 
+    a;
+
     async deleteFAQ(id: string): Promise<SuccessResponse> {
         try {
-            await this.faqModel.findByIdAndDelete(id);
+            await this.faqModel.deleteMany({ tab_id: id });
+            await this.faqTabModel.findByIdAndDelete(id);
             return Success(true, "Successfully deleted", null);
         } catch (err) {
             return Success(false, "Something went wrong", null);

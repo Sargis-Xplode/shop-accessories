@@ -4,5 +4,6 @@ export interface CartItemDTO {
     sale: number;
     quantity: number;
     description: string;
-    images: string[]
+    images: string[];
+    _id: string;
 }

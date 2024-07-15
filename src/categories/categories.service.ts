@@ -64,13 +64,6 @@ export class CategoriesService {
 
             const [materials, styles, occasions, categories] = data;
 
-            // if (active === "true") {
-            //     categories = categories.filter((item) => item.active); // TO DO
-            //     materials = materials.filter((item) => item.active);
-            //     styles = styles.filter((item) => item.active);
-            //     occasions = occasions.filter((item) => item.active);
-            // }
-
             if (data.length) {
                 return Success(true, "Successful", {
                     categories,
@@ -85,7 +78,7 @@ export class CategoriesService {
     }
 
     async createCategories(body: CategoriesDTO): Promise<SuccessResponse> {
-        const { category_arm, category_eng, subCategories } = body;
+        const { category_arm, category_eng, has_sizes, subCategories } = body;
 
         const subcategory_ids = subCategories.length ? await this.mapSubcategories(subCategories) : [];
 
@@ -93,6 +86,7 @@ export class CategoriesService {
             const categories = await this.categoriesModel.create({
                 name_arm: category_arm,
                 name_eng: category_eng,
+                has_sizes,
                 subCategories: subcategory_ids,
                 active: true,
             });

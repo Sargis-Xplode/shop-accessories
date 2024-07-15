@@ -116,15 +116,14 @@ export class ProductService {
         collection_id: string,
         category_id: string
     ): Promise<SuccessResponse> {
-        let query: any = {};
-
-        query._id = { $ne: id };
-
-        if (collection_id) {
-            query.collection_id = collection_id;
-        }
-
-        query.category_id = category_id;
+        let query = {
+            $and: [
+                { _id: { $ne: id } },
+                {
+                    $or: [{ collection_id: collection_id }, { category_id: category_id }],
+                },
+            ],
+        };
 
         try {
             const data = await this.productModel.paginate({

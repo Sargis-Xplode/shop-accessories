@@ -5,7 +5,7 @@ import SuccessResponse from "types/success.interface";
 import Success from "utils/success-response";
 import { OrdersModel } from "./orders.model";
 import { OrderDTO } from "./dto/orders.dto";
-import { STATUS_CODES } from "types/orderStatus";
+import { productOrderEmail } from "src/emails/aws-ses";
 const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 @Injectable()
@@ -15,9 +15,33 @@ export class OrdersService {
         private readonly ordersModel: Pagination<OrdersModel>
     ) {}
 
-    async getOrders(page: number, limit: number): Promise<SuccessResponse> {
+    async getOrders(
+        page: number,
+        limit: number,
+        search_term: string,
+        date: string,
+        status: number
+    ): Promise<SuccessResponse> {
+        const query: any = {};
+
+        if (search_term) {
+            query.name_arm = search_term;
+        }
+
+        if (status >= 0) {
+            query.status = status;
+        }
+
+        if (date) {
+            const startDate = new Date(`${date}T00:00:00.000Z`);
+            const endDate = new Date(`${date}T23:59:59.999Z`);
+
+            query.createdAt = { $gte: startDate, $lt: endDate };
+        }
+
         try {
             const orders = await this.ordersModel.paginate({
+                query,
                 limit,
                 page,
                 sort: {
@@ -35,7 +59,7 @@ export class OrdersService {
         const body = {
             line_items: products.map((product: any) => {
                 const discountedPrice = product.sale
-                    ? product.price - (product.price * product.sale) / 100
+                    ? Math.floor(product.price - (product.price * product.sale) / 100)
                     : product.price;
                 return {
                     price_data: {
@@ -52,7 +76,7 @@ export class OrdersService {
                 };
             }),
             mode: "payment",
-            success_url: `http://localhost:8800/payments/success`,
+            success_url: `http://localhost:3000?success=true`,
             cancel_url: `http://localhost:8800/payments/cancel`,
         };
 
@@ -62,11 +86,12 @@ export class OrdersService {
     }
 
     async createOrder(body: OrderDTO): Promise<SuccessResponse> {
-        const { title, products } = body;
+        const { title, products, user_info } = body;
         try {
             const order = await this.ordersModel.create({
                 title: title ? title : "Պատվեր",
                 products,
+                user_info,
                 status: 0,
             });
 
@@ -75,8 +100,11 @@ export class OrdersService {
             };
 
             const session: any = await this.createStripeSession(products);
+
             if (session) {
                 resBody.session_url = session.url;
+
+                productOrderEmail(user_info);
             }
 
             return Success(true, "Successful", resBody);

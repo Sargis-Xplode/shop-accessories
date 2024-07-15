@@ -14,6 +14,7 @@ import { FilterStyleModule } from "./filter-style/filter-style.module";
 import { ProductModule } from "./product/product.module";
 import { FileUploadModule } from "./file-upload/upload.module";
 import { OrdersModule } from "./orders/orders.module";
+import { FAQTabModule } from "./faq-tab/faq-tab.module";
 
 require("dotenv").config();
 
@@ -26,6 +27,7 @@ require("dotenv").config();
         PrivacyModule,
         ContactUsInfoModule,
         FAQModule,
+        FAQTabModule,
         CollectionsModule,
         CategoriesModule,
         FilterMaterialModule,

@@ -4,13 +4,13 @@ import SuccessResponse from "types/success.interface";
 import { FAQDTO } from "./dto/faq.dto";
 import { AuthGuard } from "@nestjs/passport";
 
-@Controller("faq")
+@Controller("faq-item")
 export class FAQController {
     constructor(private readonly faqService: FAQService) {}
 
-    @Get()
-    async getFAQ(@Query("page") page: string, @Query("limit") limit: string): Promise<SuccessResponse> {
-        return await this.faqService.getFAQ(parseInt(page) || 1, parseInt(limit) || 10);
+    @Get("")
+    async getFAQ(): Promise<SuccessResponse> {
+        return await this.faqService.getFAQ();
     }
 
     @Post("")
@@ -21,8 +21,8 @@ export class FAQController {
 
     @Put(":id")
     @UseGuards(AuthGuard("jwt"))
-    async updateFAQ(@Param("id") id: string, @Body() body: FAQDTO): Promise<SuccessResponse> {
-        return await this.faqService.updateFAQ(id, body);
+    async updateFAQ(@Body() body: FAQDTO, @Param("id") id: string): Promise<SuccessResponse> {
+        return await this.faqService.updateFAQ(body, id);
     }
 
     @Delete(":id")

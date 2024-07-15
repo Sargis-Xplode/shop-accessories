@@ -17,18 +17,16 @@ export class PaymentsService {
     ) {}
 
     async success(body: any): Promise<SuccessResponse> {
-        console.log(body);
-
         try {
             const { orderId } = body;
 
             const order = await this.ordersModel.findById(orderId);
 
-            const productIds: any = order.product_ids;
+            const productIds: any = order.products.map((item) => item._id);
 
             productIds.forEach(async (id: string, index: number) => {
                 const product = await this.productModel.findById(id);
-                product.in_stock = product.in_stock - order.quantities[index];
+                product.in_stock = product.in_stock - order.products[index].quantity;
                 await product.save();
             });
 

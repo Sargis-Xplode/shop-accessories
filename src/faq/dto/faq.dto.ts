@@ -1,4 +1,5 @@
 import { IsNotEmpty } from "class-validator";
+import { Types } from "mongoose";
 
 export class FAQDTO {
     @IsNotEmpty()
@@ -14,5 +15,5 @@ export class FAQDTO {
     readonly answer_eng: string;
 
     @IsNotEmpty()
-    readonly category: string;
+    readonly tab_id: Types.ObjectId;
 }

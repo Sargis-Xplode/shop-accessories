@@ -9,6 +9,9 @@ export class CategoriesModel extends Document {
     @Prop()
     name_eng: string;
 
+    @Prop()
+    has_sizes: boolean;
+
     @Prop({ type: [{ type: Types.ObjectId, ref: "SubCategoryModel" }] })
     subCategories: Types.ObjectId[];
 

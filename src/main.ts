@@ -9,7 +9,10 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
 
     app.enableCors({
-        origin: "*",
+        origin: (origin, callback) => {
+            if (!origin) return callback(null, true);
+            callback(null, true);
+        },
         methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
         credentials: true,
     });

@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
-import { Document, now } from "mongoose";
+import { Document, Types } from "mongoose";
 import { mongoosePagination } from "mongoose-paginate-ts";
 
 @Schema({ collection: "faq", timestamps: true })
@@ -17,7 +17,7 @@ export class FAQModel extends Document {
     answer_eng: string;
 
     @Prop()
-    category: string;
+    tab_id: Types.ObjectId;
 }
 
 export const faqModelSchema = SchemaFactory.createForClass(FAQModel);

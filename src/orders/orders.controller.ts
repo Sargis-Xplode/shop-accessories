@@ -10,10 +10,17 @@ export class OrdersController {
     constructor(private readonly orderService: OrdersService) {}
 
     @Get()
-    async getOrders(@Query("page") page: string, @Query("limit") limit: string): Promise<SuccessResponse> {
+    async getOrders(
+        @Query("page") page: string,
+        @Query("limit") limit: string,
+        @Query("search_term") search_term: string,
+        @Query("date") date: string,
+        @Query("status") status: string
+    ): Promise<SuccessResponse> {
         const pageNumber = parseInt(page) || 1;
         const limitNumber = parseInt(limit) || 10;
-        return await this.orderService.getOrders(pageNumber, limitNumber);
+        const statusNumber = parseInt(status);
+        return await this.orderService.getOrders(pageNumber, limitNumber, search_term, date, statusNumber);
     }
 
     @Post("")
